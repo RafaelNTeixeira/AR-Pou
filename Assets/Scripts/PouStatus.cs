@@ -8,6 +8,7 @@ public class PouStatus : MonoBehaviour
     [Range(0, 100)] public float energy = 100f;
     [Range(0, 100)] public float health = 100f;
     [Range(0, 100)] public float cleanliness = 100f;
+    public string pouMood = "Happy";
 
     [Header("Decay rates (points per second)")]
     public float hungerDecay = 1f;
@@ -24,10 +25,14 @@ public class PouStatus : MonoBehaviour
     public bool isDirty;
     public bool isSick;
 
+    public string currentWeather = "Unknown"; // TEMP: store the readable weather
+    public string isNight = "No";
+
     void Update()
     {
         UpdateNeeds(Time.deltaTime);
         UpdateStatusFlags();
+        UpdateWeatherEffects();
     }
 
     void UpdateNeeds(float deltaTime)
@@ -63,6 +68,41 @@ public class PouStatus : MonoBehaviour
         isDirty = cleanliness < 50;
     }
 
+    void UpdateWeatherEffects()
+    {
+        var weather = FindFirstObjectByType<WeatherManager>();
+
+        if (weather != null)
+        {
+            if (weather.isRaining)
+            {
+                pouMood = "Sad";
+                currentWeather = "Raining";
+            }
+            else if (weather.isSunny)
+            {
+                pouMood = "Happy";
+                currentWeather = "Sunny";
+            }
+            else if (weather.isCloudy)
+            {
+                pouMood = "Calm";
+                currentWeather = "Cloudy";
+            }
+            else if (weather.isSnowing)
+            {
+                pouMood = "Cold";
+                currentWeather = "Snowing";
+            }
+            else
+            {
+                currentWeather = "Unknown";
+            }
+            isNight = weather.isNight ? "Yes" : "No";
+        }
+    }
+
+
     // Methods to interact with Pou and improve his stats
     public void Feed(float amount)
     {
@@ -91,5 +131,8 @@ public class PouStatus : MonoBehaviour
         GUI.Label(new Rect(10, 30, 300, 20), $"Energy: {energy:F1}");
         GUI.Label(new Rect(10, 50, 300, 20), $"Health: {health:F1}");
         GUI.Label(new Rect(10, 70, 300, 20), $"Cleanliness: {cleanliness:F1}");
+        GUI.Label(new Rect(10, 90, 300, 20), $"Mood: {pouMood}");
+        GUI.Label(new Rect(10, 110, 300, 20), $"Weather: {currentWeather}");
+        GUI.Label(new Rect(10, 130, 300, 20), $"Is it Night?: {isNight}");
     }
 }
