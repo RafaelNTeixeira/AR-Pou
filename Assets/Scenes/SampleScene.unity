@@ -315,6 +315,8 @@ MonoBehaviour:
     prefab: {fileID: -4320558180572046448, guid: ea1b9eba8c15fff4e91f61ef8c0345da, type: 3}
   - markerName: FoodMarker
     prefab: {fileID: 2251635371974061847, guid: 013d5941c9011f74eb82775f52e14b3d, type: 3}
+  - markerName: ShowerMarker
+    prefab: {fileID: 7218993107399146582, guid: 98a5f8bff516ae14bb08387e90c7b2e4, type: 3}
 --- !u!4 &1062448169
 Transform:
   m_ObjectHideFlags: 0
