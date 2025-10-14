@@ -193,6 +193,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387470528047719, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1553500810}
+    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!1 &331264286 stripped
 GameObject:
@@ -310,6 +313,8 @@ MonoBehaviour:
   markerPrefabs:
   - markerName: PouMarker
     prefab: {fileID: -4320558180572046448, guid: ea1b9eba8c15fff4e91f61ef8c0345da, type: 3}
+  - markerName: FoodMarker
+    prefab: {fileID: 2251635371974061847, guid: 013d5941c9011f74eb82775f52e14b3d, type: 3}
 --- !u!4 &1062448169
 Transform:
   m_ObjectHideFlags: 0
