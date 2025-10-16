@@ -73,6 +73,6 @@ public class MarkerObjectSpawner : MonoBehaviour
 
         // Update position + visibility
         spawned.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
-        spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);
+        // spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);
     }
 }
