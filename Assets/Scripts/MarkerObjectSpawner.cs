@@ -32,6 +32,7 @@ public class MarkerObjectSpawner : MonoBehaviour
         trackedImageManager.trackedImagesChanged -= OnTrackablesChanged;
     }
 
+    // Called when tracked images are added, updated, or removed
     void OnTrackablesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
         // When a new marker is detected
@@ -56,6 +57,7 @@ public class MarkerObjectSpawner : MonoBehaviour
         }
     }
 
+    // Spawn or update the prefab corresponding to the tracked image
     void SpawnOrUpdatePrefab(ARTrackedImage trackedImage)
     {
         string markerName = trackedImage.referenceImage.name;

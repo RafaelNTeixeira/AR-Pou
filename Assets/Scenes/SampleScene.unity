@@ -193,9 +193,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387470528047719, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1553500810}
-    - targetCorrespondingSourceObject: {fileID: 2512387470528047719, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1553500815}
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!1 &331264286 stripped
 GameObject:
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerPrefabs:
   - markerName: PouMarker
-    prefab: {fileID: 2601094956500604261, guid: 9e62e711c9b870340adb810cc89c74bc, type: 3}
+    prefab: {fileID: 8296019595181625030, guid: 50f64ee7c87269148bfc8f3bb9e66e35, type: 3}
   - markerName: FoodMarker
     prefab: {fileID: 2251635371974061847, guid: 013d5941c9011f74eb82775f52e14b3d, type: 3}
   - markerName: ShowerMarker
@@ -594,34 +594,6 @@ MonoBehaviour:
   m_SerializedLibrary: {fileID: 11400000, guid: cd1907c7d2a66f7449735d488da6a43d, type: 2}
   m_MaxNumberOfMovingImages: 3
   m_TrackedImagePrefab: {fileID: 0}
---- !u!114 &1553500815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331264286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 059abc209e19cc045bfb41771b8d6ff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hunger: 100
-  energy: 100
-  health: 100
-  cleanliness: 100
-  pouMood: Happy
-  hungerDecay: 1
-  energyDecay: 0.5
-  cleanlinessDecay: 0.3
-  sickThreshold: 40
-  sicknessRate: 0.2
-  isHungry: 0
-  isSleepy: 0
-  isDirty: 0
-  isSick: 0
-  currentWeather: Unknown
-  isNight: No
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

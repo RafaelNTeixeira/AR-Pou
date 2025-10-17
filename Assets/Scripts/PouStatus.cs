@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class PouStatus : MonoBehaviour
 {
@@ -16,123 +15,65 @@ public class PouStatus : MonoBehaviour
     public float cleanlinessDecay = 0.3f;
 
     [Header("Illness parameters")]
-    public float sickThreshold = 40f; // Below this, Pou may get sick
-    public float sicknessRate = 0.2f; // Health decay per second when sick
+    public float sickThreshold = 40f;
+    public float sicknessRate = 0.2f;
 
-    [Header("Status flags (read-only)")]
-    public bool isHungry;
-    public bool isSleepy;
-    public bool isDirty;
-    public bool isSick;
+    [Header("Sphere references")]
+    public Renderer hungerSphere;
+    public Renderer energySphere;
+    public Renderer healthSphere;
+    public Renderer cleanlinessSphere;
 
-    public string currentWeather = "Unknown"; // TEMP: store the readable weather
-    public string isNight = "No";
+    [Header("Sphere settings")]
+    public float sphereHeight = 0.35f;
+    public float sphereSpacing = 0.08f;
+    public bool faceCamera = true;
+
+    private Transform statusHolder;
 
     void Update()
     {
         UpdateNeeds(Time.deltaTime);
-        UpdateStatusFlags();
-        UpdateWeatherEffects();
+        UpdateSphereColors();
+
+        // Make the marker always face the camera
+        // if (faceCamera && Camera.main != null)
+        //     statusHolder.LookAt(Camera.main.transform);
     }
 
-    void UpdateNeeds(float deltaTime)
+    // Decrease needs over time
+    void UpdateNeeds(float dt)
     {
-        // Gradually decrease the stats
-        hunger -= hungerDecay * deltaTime;
-        energy -= energyDecay * deltaTime;
-        cleanliness -= cleanlinessDecay * deltaTime;
+        hunger = Mathf.Clamp(hunger - hungerDecay * dt, 0, 100);
+        energy = Mathf.Clamp(energy - energyDecay * dt, 0, 100);
+        cleanliness = Mathf.Clamp(cleanliness - cleanlinessDecay * dt, 0, 100);
 
-        hunger = Mathf.Clamp(hunger, 0, 100);
-        energy = Mathf.Clamp(energy, 0, 100);
-        cleanliness = Mathf.Clamp(cleanliness, 0, 100);
-
-        // If Pou is unhealthy (hunger or cleanliness too low), he gets sick. 
-        // TEMP: May need updates later
+        // Health decreases if hunger or cleanliness are below the sick threshold
         if (hunger < sickThreshold || cleanliness < sickThreshold)
         {
-            health -= sicknessRate * deltaTime;
-            isSick = true;
-        }
-        else
-        {
-            isSick = false;
-        }
-
-        health = Mathf.Clamp(health, 0, 100);
-    }
-
-    void UpdateStatusFlags()
-    {
-        isHungry = hunger < 50;
-        isSleepy = energy < 50;
-        isDirty = cleanliness < 50;
-    }
-
-    void UpdateWeatherEffects()
-    {
-        var weather = FindFirstObjectByType<WeatherManager>();
-
-        if (weather != null)
-        {
-            if (weather.isRaining)
-            {
-                pouMood = "Sad";
-                currentWeather = "Raining";
-            }
-            else if (weather.isSunny)
-            {
-                pouMood = "Happy";
-                currentWeather = "Sunny";
-            }
-            else if (weather.isCloudy)
-            {
-                pouMood = "Calm";
-                currentWeather = "Cloudy";
-            }
-            else if (weather.isSnowing)
-            {
-                pouMood = "Cold";
-                currentWeather = "Snowing";
-            }
-            else
-            {
-                currentWeather = "Unknown";
-            }
-            isNight = weather.isNight ? "Yes" : "No";
+            health = Mathf.Clamp(health - sicknessRate * dt, 0, 100);
         }
     }
 
-
-    // Methods to interact with Pou and improve his stats
-    public void Feed(float amount)
+    // Update the colors of the spheres based on current values
+    void UpdateSphereColors()
     {
-        hunger = Mathf.Clamp(hunger + amount, 0, 100);
+        if (hungerSphere) hungerSphere.material.color = ValueToColor(hunger);
+        if (energySphere) energySphere.material.color = ValueToColor(energy);
+        if (healthSphere) healthSphere.material.color = ValueToColor(health);
+        if (cleanlinessSphere) cleanlinessSphere.material.color = ValueToColor(cleanliness);
     }
 
-    public void Sleep(float amount)
+    // Convert a value (0-100) to a color from red to green
+    Color ValueToColor(float value)
     {
-        energy = Mathf.Clamp(energy + amount, 0, 100);
+        // 100 = green, 0 = red
+        return Color.Lerp(Color.red, Color.green, value / 100f);
     }
 
-    public void Clean(float amount)
-    {
-        cleanliness = Mathf.Clamp(cleanliness + amount, 0, 100);
-    }
-
-    public void Heal(float amount)
-    {
-        health = Mathf.Clamp(health + amount, 0, 100);
-    }
-
-    // Debug
-    void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 300, 20), $"Hunger: {hunger:F1}");
-        GUI.Label(new Rect(10, 30, 300, 20), $"Energy: {energy:F1}");
-        GUI.Label(new Rect(10, 50, 300, 20), $"Health: {health:F1}");
-        GUI.Label(new Rect(10, 70, 300, 20), $"Cleanliness: {cleanliness:F1}");
-        GUI.Label(new Rect(10, 90, 300, 20), $"Mood: {pouMood}");
-        GUI.Label(new Rect(10, 110, 300, 20), $"Weather: {currentWeather}");
-        GUI.Label(new Rect(10, 130, 300, 20), $"Is it Night?: {isNight}");
-    }
+    // Public methods to modify Pou's needs
+    public void Feed(float amount) => hunger = Mathf.Clamp(hunger + amount, 0, 100);
+    public void Sleep(float amount) => energy = Mathf.Clamp(energy + amount, 0, 100);
+    public void Clean(float amount) => cleanliness = Mathf.Clamp(cleanliness + amount, 0, 100);
+    public void Heal(float amount) => health = Mathf.Clamp(health + amount, 0, 100);
 }
