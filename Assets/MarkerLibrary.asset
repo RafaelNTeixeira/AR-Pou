@@ -21,8 +21,8 @@ MonoBehaviour:
       m_GuidLow: 4835356924393046196
       m_GuidHigh: 11463830077763180723
     m_SerializedTextureGuid:
-      m_GuidLow: 8715642466309332772
-      m_GuidHigh: 2523196651426702826
+      m_GuidLow: 636193562653040558
+      m_GuidHigh: 9608915055845318523
     m_Size: {x: 0.1, y: 0.1}
     m_SpecifySize: 1
     m_Name: PouMarker
@@ -31,8 +31,8 @@ MonoBehaviour:
       m_GuidLow: 5480221909323174481
       m_GuidHigh: 5723110139469233059
     m_SerializedTextureGuid:
-      m_GuidLow: 4554280809253964958
-      m_GuidHigh: 9455617355396270923
+      m_GuidLow: 10273989593015445058
+      m_GuidHigh: 6430745257913482346
     m_Size: {x: 0.1, y: 0.1}
     m_SpecifySize: 1
     m_Name: FoodMarker
@@ -41,9 +41,9 @@ MonoBehaviour:
       m_GuidLow: 5485671158966706134
       m_GuidHigh: 10514906899219125430
     m_SerializedTextureGuid:
-      m_GuidLow: 9031029559658503064
-      m_GuidHigh: 10423133347688871017
-    m_Size: {x: 0.01, y: 0.01}
+      m_GuidLow: 18420898211185975659
+      m_GuidHigh: 5895625272501598730
+    m_Size: {x: 0.1, y: 0.1}
     m_SpecifySize: 1
     m_Name: ShowerMarker
     m_Texture: {fileID: 0}
