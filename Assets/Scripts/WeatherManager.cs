@@ -28,7 +28,7 @@ public class WeatherManager : MonoBehaviour
     public bool isSnowing;
     public bool isCloudy;
     public bool isNight;
-
+/*
     void Start()
     {
         StartCoroutine(GetWeather());
@@ -36,7 +36,7 @@ public class WeatherManager : MonoBehaviour
 
     IEnumerator GetWeather()
     {
-        string url = $"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={apiKey}&contentType=json";
+        /string url = $"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={apiKey}&contentType=json";
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
@@ -96,5 +96,5 @@ public class WeatherManager : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

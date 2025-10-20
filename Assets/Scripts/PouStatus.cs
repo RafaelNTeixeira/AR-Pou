@@ -35,6 +35,7 @@ public class PouStatus : MonoBehaviour
     {
         UpdateNeeds(Time.deltaTime);
         UpdateSphereColors();
+        UpdateMood();
 
         // Make the marker always face the camera
         // if (faceCamera && Camera.main != null)
@@ -76,4 +77,15 @@ public class PouStatus : MonoBehaviour
     public void Sleep(float amount) => energy = Mathf.Clamp(energy + amount, 0, 100);
     public void Clean(float amount) => cleanliness = Mathf.Clamp(cleanliness + amount, 0, 100);
     public void Heal(float amount) => health = Mathf.Clamp(health + amount, 0, 100);
+
+    void UpdateMood()
+    {
+        float average = (hunger + energy + health + cleanliness) / 4f;
+        
+        if (average >= 85f) pouMood = "Happy";
+        else if (average >= 65f) pouMood = "Okay";
+        else if (average >= 40f) pouMood = "Sad";
+        else if (average >= 20f) pouMood = "Sick";
+        else pouMood = "Depressed";
+    }
 }
