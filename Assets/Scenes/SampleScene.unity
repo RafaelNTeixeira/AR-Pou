@@ -317,6 +317,10 @@ MonoBehaviour:
     prefab: {fileID: 2251635371974061847, guid: 013d5941c9011f74eb82775f52e14b3d, type: 3}
   - markerName: ShowerMarker
     prefab: {fileID: 7218993107399146582, guid: 98a5f8bff516ae14bb08387e90c7b2e4, type: 3}
+  - markerName: SleepMarker
+    prefab: {fileID: 8868991381300343148, guid: e38ff276e139cf84e8b3f3b80e19c6bd, type: 3}
+  - markerName: MedicineMarker
+    prefab: {fileID: 8871310073979358782, guid: 57f516edc4fcde54db9dfde59b405686, type: 3}
 --- !u!4 &1062448169
 Transform:
   m_ObjectHideFlags: 0

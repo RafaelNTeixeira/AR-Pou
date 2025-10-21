@@ -49,3 +49,23 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: ShowerMarker
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4670731774633883192
+      m_GuidHigh: 4032152808394375082
+    m_SerializedTextureGuid:
+      m_GuidLow: 15844860052638576450
+      m_GuidHigh: 11125515058881023609
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: SleepMarker
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5542165950459825524
+      m_GuidHigh: 6869394914510695309
+    m_SerializedTextureGuid:
+      m_GuidLow: 17331007173609189152
+      m_GuidHigh: 11940875147673862313
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: MedicineMarker
+    m_Texture: {fileID: 0}
