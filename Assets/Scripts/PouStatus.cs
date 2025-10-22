@@ -19,10 +19,10 @@ public class PouStatus : MonoBehaviour
     public float sicknessRate = 0.2f;
 
     [Header("Sphere references")]
-    public Renderer hungerSphere;
-    public Renderer energySphere;
-    public Renderer healthSphere;
-    public Renderer cleanlinessSphere;
+    public Transform hungerSphere; 
+    public Transform energySphere; 
+    public Transform healthSphere;
+    public Transform cleanlinessSphere;
 
     [Header("Sphere settings")]
     public float sphereHeight = 0.35f;
@@ -31,11 +31,23 @@ public class PouStatus : MonoBehaviour
 
     private Transform statusHolder;
 
+    private Transform mainCameraTransform;
+
+    void Start()
+    {
+        if (Camera.main != null)
+        {
+            mainCameraTransform = Camera.main.transform;
+        }
+    }
+
     void Update()
     {
         UpdateNeeds(Time.deltaTime);
         UpdateSphereColors();
         UpdateMood();
+
+        HandleCameraFacing();
 
         // Make the marker always face the camera
         // if (faceCamera && Camera.main != null)
@@ -59,10 +71,10 @@ public class PouStatus : MonoBehaviour
     // Update the colors of the spheres based on current values
     void UpdateSphereColors()
     {
-        if (hungerSphere) hungerSphere.material.color = ValueToColor(hunger);
-        if (energySphere) energySphere.material.color = ValueToColor(energy);
-        if (healthSphere) healthSphere.material.color = ValueToColor(health);
-        if (cleanlinessSphere) cleanlinessSphere.material.color = ValueToColor(cleanliness);
+        if (hungerSphere) hungerSphere.GetComponent<Renderer>().material.color = ValueToColor(hunger);
+        if (energySphere) energySphere.GetComponent<Renderer>().material.color = ValueToColor(energy);
+        if (healthSphere) healthSphere.GetComponent<Renderer>().material.color = ValueToColor(health);
+        if (cleanlinessSphere) cleanlinessSphere.GetComponent<Renderer>().material.color = ValueToColor(cleanliness);
     }
 
     // Convert a value (0-100) to a color from red to green
@@ -81,11 +93,55 @@ public class PouStatus : MonoBehaviour
     void UpdateMood()
     {
         float average = (hunger + energy + health + cleanliness) / 4f;
-        
+
         if (average >= 85f) pouMood = "Happy";
         else if (average >= 65f) pouMood = "Okay";
         else if (average >= 40f) pouMood = "Sad";
         else if (average >= 20f) pouMood = "Sick";
         else pouMood = "Depressed";
+    }
+    
+    // Rotates each sphere to look at the camera
+    void HandleCameraFacing()
+    {
+        if (!faceCamera || mainCameraTransform == null)
+        {
+            return;
+        }
+
+        // Make the spheres tilt towards the camera
+        if (hungerSphere) hungerSphere.LookAt(mainCameraTransform);
+        if (energySphere) energySphere.LookAt(mainCameraTransform);
+        if (healthSphere) healthSphere.LookAt(mainCameraTransform);
+        if (cleanlinessSphere) cleanlinessSphere.LookAt(mainCameraTransform);
+
+
+        /* 
+        // ALTERNATIVE (Upright)
+        // Get the camera's position
+        Vector3 camPos = mainCameraTransform.position;
+
+        // This version keeps the icons "upright" (no vertical tilt) by having them look at a point at their own height.
+        if (hungerSphere)
+        {
+            Vector3 lookPos = new Vector3(camPos.x, hungerSphere.position.y, camPos.z);
+            hungerSphere.LookAt(lookPos);
+        }
+        if (energySphere)
+        {
+            Vector3 lookPos = new Vector3(camPos.x, energySphere.position.y, camPos.z);
+            energySphere.LookAt(lookPos);
+        }
+        if (healthSphere)
+        {
+            Vector3 lookPos = new Vector3(camPos.x, healthSphere.position.y, camPos.z);
+            healthSphere.LookAt(lookPos);
+        }
+        if (cleanlinessSphere)
+        {
+            Vector3 lookPos = new Vector3(camPos.x, cleanlinessSphere.position.y, camPos.z);
+            cleanlinessSphere.LookAt(lookPos);
+        }
+        */
     }
 }
