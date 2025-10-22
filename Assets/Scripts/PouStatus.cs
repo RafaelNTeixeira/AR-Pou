@@ -46,12 +46,7 @@ public class PouStatus : MonoBehaviour
         UpdateNeeds(Time.deltaTime);
         UpdateSphereColors();
         UpdateMood();
-
         HandleCameraFacing();
-
-        // Make the marker always face the camera
-        // if (faceCamera && Camera.main != null)
-        //     statusHolder.LookAt(Camera.main.transform);
     }
 
     // Decrease needs over time
