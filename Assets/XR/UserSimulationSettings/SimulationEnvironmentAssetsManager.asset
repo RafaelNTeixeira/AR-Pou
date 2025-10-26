@@ -20,6 +20,7 @@ MonoBehaviour:
   - Assets/UnityXRContent/ARFoundation/SimulationEnvironments/Bedroom/Bedroom_20ftx17ft.prefab
   - Assets/UnityXRContent/ARFoundation/SimulationEnvironments/Billboard/Billboard_City.prefab
   - Assets/UnityXRContent/ARFoundation/SimulationEnvironments/DiningRoom/DiningRoom_15ftx12.5ft.prefab
+  - Assets/UnityXRContent/ARFoundation/SimulationEnvironments/DiningRoom/DiningRoom_15ftx12.5ft_MiniGame.prefab
   - Assets/UnityXRContent/ARFoundation/SimulationEnvironments/DiningRoom/DiningRoom_18ftx16ft.prefab
   - Assets/UnityXRContent/ARFoundation/SimulationEnvironments/Factory/Factory_180ftx101ft.prefab
   - Assets/UnityXRContent/ARFoundation/SimulationEnvironments/Kitchen/Kitchen_13ftx9ft.prefab
