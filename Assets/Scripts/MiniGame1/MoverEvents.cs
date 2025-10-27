@@ -2,17 +2,27 @@ using System; // Required for using 'Action'
 
 public static class MoverEvents
 {
-    // Define an event 'Action' for each direction
-    public static event Action onMoveFront;
-    public static event Action onMoveBack;
-    public static event Action onMoveLeft;
-    public static event Action onMoveRight;
+    // Define START moving events
+    public static event Action onStartMoveFront;
+    public static event Action onStartMoveBack;
+    public static event Action onStartMoveLeft;
+    public static event Action onStartMoveRight;
 
-    // Public methods to 'fire' or 'trigger' the events safely
-    // The '?' checks if any script is currently listening before firing.
-    
-    public static void TriggerMoveFront() => onMoveFront?.Invoke();
-    public static void TriggerMoveBack() => onMoveBack?.Invoke();
-    public static void TriggerMoveLeft() => onMoveLeft?.Invoke();
-    public static void TriggerMoveRight() => onMoveRight?.Invoke();
+    // Define STOP moving events
+    public static event Action onStopMoveFront;
+    public static event Action onStopMoveBack;
+    public static event Action onStopMoveLeft;
+    public static event Action onStopMoveRight;
+
+    // --- Public methods to fire START events ---
+    public static void TriggerStartMoveFront() => onStartMoveFront?.Invoke();
+    public static void TriggerStartMoveBack()  => onStartMoveBack?.Invoke();
+    public static void TriggerStartMoveLeft()  => onStartMoveLeft?.Invoke();
+    public static void TriggerStartMoveRight() => onStartMoveRight?.Invoke();
+
+    // --- Public methods to fire STOP events ---
+    public static void TriggerStopMoveFront() => onStopMoveFront?.Invoke();
+    public static void TriggerStopMoveBack()  => onStopMoveBack?.Invoke();
+    public static void TriggerStopMoveLeft()  => onStopMoveLeft?.Invoke();
+    public static void TriggerStopMoveRight() => onStopMoveRight?.Invoke();
 }
