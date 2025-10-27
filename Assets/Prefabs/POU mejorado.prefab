@@ -609,7 +609,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3599256538274329631, guid: ea1b9eba8c15fff4e91f61ef8c0345da, type: 3}
+  - {fileID: 2100000, guid: 06c11f9c0123b054cabe3e631b4c800d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -705,10 +705,10 @@ MonoBehaviour:
   cleanliness: 100
   pouMood: Happy
   hungerDecay: 1
-  energyDecay: 0.5
-  cleanlinessDecay: 0.3
+  energyDecay: 0.3
+  cleanlinessDecay: 0.5
   sickThreshold: 40
-  sicknessRate: 0.2
+  sicknessRate: 0.3
   hungerSphere: {fileID: 2114976905984768952}
   energySphere: {fileID: 3740338551049116063}
   healthSphere: {fileID: 7004617795397492418}
@@ -716,6 +716,17 @@ MonoBehaviour:
   sphereHeight: 0.35
   sphereSpacing: 0.08
   faceCamera: 1
+  Dirty: {fileID: 2100000, guid: 3a28ef198c2dfab4d8e8a38c394e5d7a, type: 2}
+  DirtyTired: {fileID: 2100000, guid: 6287236d1558ab947a4ab0db7e49b7da, type: 2}
+  HappyFace: {fileID: 2100000, guid: 06c11f9c0123b054cabe3e631b4c800d, type: 2}
+  OkayFace: {fileID: 2100000, guid: bc8c6f33731f8294999bcb6d6bf5c13c, type: 2}
+  SadFace: {fileID: 2100000, guid: 48f0ba47f4a29db4d8cbc821f2703198, type: 2}
+  SickDirtyFace: {fileID: 2100000, guid: 8cd15de51585a5146985e8208f882d82, type: 2}
+  SickDirtyTiredFace: {fileID: 2100000, guid: 4ff7bb3a55a864f4889c08f6c4172290, type: 2}
+  SickFace: {fileID: 2100000, guid: f17976137cbfd0949817dc147cb2e4bc, type: 2}
+  SickTiredFace: {fileID: 2100000, guid: bfa5d96c2aa8a1e4e9573adfb3bd04b1, type: 2}
+  TiredFace: {fileID: 2100000, guid: 8a1debe7db909624285b8af668ab6f4e, type: 2}
+  pouRenderer: {fileID: 6772834874422112817}
 --- !u!1 &8382578734610837929
 GameObject:
   m_ObjectHideFlags: 0
