@@ -10,12 +10,17 @@ public class PouAnimator : MonoBehaviour
     public GameObject emojiPrefab;
     public float emojiHeight = 1.2f;
 
-
     [Header("Particles")]
     public ParticleSystem bubbleEffect;
     public ParticleSystem healEffect;
 
-    
+    [Header("Sounds (3D)")]
+    public AudioSource audioSource;
+    public AudioClip feedSound;
+    public AudioClip sleepSound;
+    public AudioClip cleanSound;
+    public AudioClip medicineSound;
+
     private bool isAnimating = false;
     private Vector3 defaultScale;
 
@@ -25,27 +30,37 @@ public class PouAnimator : MonoBehaviour
         defaultScale = pouBody.localScale;
     }
 
+    private void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+            audioSource.PlayOneShot(clip);
+    }
+
     public void PlayFeedAnimation()
     {
         if (!isAnimating) StartCoroutine(FeedRoutine());
+        PlaySound(feedSound);
         ShowEmoji("<sprite name=feed>");
     }
 
     public void PlaySleepAnimation()
     {
         if (!isAnimating) StartCoroutine(SleepRoutine());
+        PlaySound(sleepSound);
         ShowEmoji("<sprite name=sleep>");
     }
 
     public void PlayCleanAnimation()
     {
         if (!isAnimating) StartCoroutine(CleanRoutine());
+        PlaySound(cleanSound);
         ShowEmoji("<sprite name=clean>");
     }
 
     public void PlayMedicineAnimation()
     {
         if (!isAnimating) StartCoroutine(MedicineRoutine());
+        PlaySound(medicineSound);
         ShowEmoji("<sprite name=medicine>");
     }
 
