@@ -642,6 +642,7 @@ GameObject:
   - component: {fileID: 5619867809241490055}
   - component: {fileID: 1194676141910401252}
   - component: {fileID: 7255245920423907256}
+  - component: {fileID: 5404705768305630586}
   m_Layer: 0
   m_Name: POU mejorado
   m_TagString: Pou
@@ -727,6 +728,24 @@ MonoBehaviour:
   SickTiredFace: {fileID: 2100000, guid: bfa5d96c2aa8a1e4e9573adfb3bd04b1, type: 2}
   TiredFace: {fileID: 2100000, guid: 8a1debe7db909624285b8af668ab6f4e, type: 2}
   pouRenderer: {fileID: 6772834874422112817}
+--- !u!114 &5404705768305630586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296019595181625030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547100d2a0cb87646a2385daad5cdc07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pouBody: {fileID: 4920070288641265587}
+  emojiPrefab: {fileID: 3115377061293218877, guid: e058f9866c3d0324091a059c961f012b, type: 3}
+  emojiHeight: 0.2
+  bubbleEffect: {fileID: 7022268795503775818, guid: 7377f38a94f13bd43924090d4a77f29e, type: 3}
+  healEffect: {fileID: 3548588485384254794, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
+  foodEffect: {fileID: 417761080263594739, guid: 7800b8f6b712bfe49bd663eeb3ebe1e4, type: 3}
 --- !u!1 &8382578734610837929
 GameObject:
   m_ObjectHideFlags: 0
