@@ -14,7 +14,6 @@ public class PouAnimator : MonoBehaviour
     [Header("Particles")]
     public ParticleSystem bubbleEffect;
     public ParticleSystem healEffect;
-    public ParticleSystem foodEffect;
 
     
     private bool isAnimating = false;
@@ -63,10 +62,23 @@ public class PouAnimator : MonoBehaviour
             popupScript.Setup(spriteTag);
     }
 
+    private void SpawnParticle(ParticleSystem particlePrefab)
+    {
+        if (particlePrefab == null) return;
+
+        // Instantiate at Pou's position
+        ParticleSystem instance = Instantiate(particlePrefab, pouBody.position, Quaternion.identity);
+
+        // Play the particle
+        instance.Play();
+
+        // Destroy after its duration
+        Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
+    }
+
     private IEnumerator FeedRoutine()
     {
         isAnimating = true;
-        foodEffect?.Play();
 
         // simple chew loop (scale squash/stretch)
         for (int i = 0; i < 4; i++)
@@ -106,7 +118,7 @@ public class PouAnimator : MonoBehaviour
     private IEnumerator MedicineRoutine()
     {
         isAnimating = true;
-        healEffect?.Play();
+        SpawnParticle(healEffect);
 
         // Shake
         for (int i = 0; i < 10; i++)
@@ -122,7 +134,7 @@ public class PouAnimator : MonoBehaviour
     private IEnumerator CleanRoutine()
     {
         isAnimating = true;
-        bubbleEffect?.Play();
+        SpawnParticle(bubbleEffect);
 
         // Small wiggle while cleaning
         float timer = 1.5f;

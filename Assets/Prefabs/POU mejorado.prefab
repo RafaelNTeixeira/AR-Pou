@@ -744,8 +744,7 @@ MonoBehaviour:
   emojiPrefab: {fileID: 3115377061293218877, guid: e058f9866c3d0324091a059c961f012b, type: 3}
   emojiHeight: 0.2
   bubbleEffect: {fileID: 7022268795503775818, guid: 7377f38a94f13bd43924090d4a77f29e, type: 3}
-  healEffect: {fileID: 3548588485384254794, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
-  foodEffect: {fileID: 417761080263594739, guid: 7800b8f6b712bfe49bd663eeb3ebe1e4, type: 3}
+  healEffect: {fileID: 370903732007794658, guid: 4c99db016d646e1409dc81894eb7057e, type: 3}
 --- !u!1 &8382578734610837929
 GameObject:
   m_ObjectHideFlags: 0
