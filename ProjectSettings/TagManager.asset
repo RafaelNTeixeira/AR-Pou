@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pou
   - Food
+  - Maze
   layers:
   - Default
   - TransparentFX
