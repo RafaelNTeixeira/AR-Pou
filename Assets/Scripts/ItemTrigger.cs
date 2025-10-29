@@ -44,8 +44,9 @@ public class ItemTrigger : MonoBehaviour
         if (hasBeenUsed) return;
         
         hasBeenUsed = true;
-        
+
         PouStatus pouStatus = pou.GetComponent<PouStatus>();
+        PouAnimator pouAnimator = pou.GetComponent<PouAnimator>();
         if (pouStatus != null)
         {
             // Call appropriate method based on item type
@@ -53,21 +54,25 @@ public class ItemTrigger : MonoBehaviour
             {
                 case ItemType.Food:
                     pouStatus.Feed(itemValue);
+                    pouAnimator.PlayFeedAnimation();
                     Debug.Log($"Pou ate {gameObject.name}, hunger increased by {itemValue}");
                     break;
                     
                 case ItemType.Health:
                     pouStatus.Heal(itemValue);
+                    pouAnimator.PlayMedicineAnimation();
                     Debug.Log($"Pou used {gameObject.name}, health increased by {itemValue}");
                     break;
                     
                 case ItemType.Shower:
                     pouStatus.Clean(itemValue);
+                    pouAnimator.PlayCleanAnimation();
                     Debug.Log($"Pou showered with {gameObject.name}, cleanliness increased by {itemValue}");
                     break;
                     
                 case ItemType.Sleep:
                     pouStatus.Sleep(itemValue);
+                    pouAnimator.PlaySleepAnimation();
                     Debug.Log($"Pou slept on {gameObject.name}, energy increased by {itemValue}");
                     break;
             }

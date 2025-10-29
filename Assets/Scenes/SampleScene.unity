@@ -193,6 +193,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387470528047719, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1553500810}
+    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!1 &331264286 stripped
 GameObject:
@@ -310,14 +313,44 @@ MonoBehaviour:
   markerPrefabs:
   - markerName: PouMarker
     prefab: {fileID: 8296019595181625030, guid: 50f64ee7c87269148bfc8f3bb9e66e35, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0.05, z: 0}
   - markerName: FoodMarker
     prefab: {fileID: 2251635371974061847, guid: 013d5941c9011f74eb82775f52e14b3d, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
   - markerName: ShowerMarker
     prefab: {fileID: 7218993107399146582, guid: 98a5f8bff516ae14bb08387e90c7b2e4, type: 3}
+    rotationOffset: {x: 90, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0.01, z: 0}
   - markerName: SleepMarker
     prefab: {fileID: 8868991381300343148, guid: e38ff276e139cf84e8b3f3b80e19c6bd, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
   - markerName: MedicineMarker
     prefab: {fileID: 8871310073979358782, guid: 57f516edc4fcde54db9dfde59b405686, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0.03, z: 0}
+  - markerName: DownMarker
+    prefab: {fileID: 8871310073979358782, guid: 57f516edc4fcde54db9dfde59b405686, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
+  - markerName: UpMarker
+    prefab: {fileID: 2251635371974061847, guid: 013d5941c9011f74eb82775f52e14b3d, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
+  - markerName: LeftMarker
+    prefab: {fileID: 7218993107399146582, guid: 98a5f8bff516ae14bb08387e90c7b2e4, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
+  - markerName: RightMarker
+    prefab: {fileID: 8868991381300343148, guid: e38ff276e139cf84e8b3f3b80e19c6bd, type: 3}
+    rotationOffset: {x: 0, y: 180, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
+  - markerName: MazeMarker
+    prefab: {fileID: 44401259199533581, guid: 3ff0b247d4af05f46a5bcb3ccd24a1f7, type: 3}
+    rotationOffset: {x: -90, y: 0, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1062448169
 Transform:
   m_ObjectHideFlags: 0

@@ -67,3 +67,53 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: MedicineMarker
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5004352535254052270
+      m_GuidHigh: 1376029972429126306
+    m_SerializedTextureGuid:
+      m_GuidLow: 6184677765921282879
+      m_GuidHigh: 16981702500321256201
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: DownMarker
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4772516722014515087
+      m_GuidHigh: 11838894641054446241
+    m_SerializedTextureGuid:
+      m_GuidLow: 12859125421233179029
+      m_GuidHigh: 2634091527057208153
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: LeftMarker
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5205754099460680037
+      m_GuidHigh: 11517323911844400034
+    m_SerializedTextureGuid:
+      m_GuidLow: 12660899887741709282
+      m_GuidHigh: 12260365355552818505
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: RightMarker
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5054296434796877936
+      m_GuidHigh: 2716195857097080753
+    m_SerializedTextureGuid:
+      m_GuidLow: 13341066876331020588
+      m_GuidHigh: 9515727952668825240
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: UpMarker
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5736762559262408388
+      m_GuidHigh: 4241641320250224268
+    m_SerializedTextureGuid:
+      m_GuidLow: 1672015795676204690
+      m_GuidHigh: 5172083596582870715
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: MazeMarker
+    m_Texture: {fileID: 0}

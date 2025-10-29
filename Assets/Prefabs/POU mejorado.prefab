@@ -609,7 +609,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3599256538274329631, guid: ea1b9eba8c15fff4e91f61ef8c0345da, type: 3}
+  - {fileID: 2100000, guid: 06c11f9c0123b054cabe3e631b4c800d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -642,6 +642,8 @@ GameObject:
   - component: {fileID: 5619867809241490055}
   - component: {fileID: 1194676141910401252}
   - component: {fileID: 7255245920423907256}
+  - component: {fileID: 5404705768305630586}
+  - component: {fileID: -9132773982897396048}
   m_Layer: 0
   m_Name: POU mejorado
   m_TagString: Pou
@@ -705,10 +707,10 @@ MonoBehaviour:
   cleanliness: 100
   pouMood: Happy
   hungerDecay: 1
-  energyDecay: 0.5
-  cleanlinessDecay: 0.3
+  energyDecay: 0.3
+  cleanlinessDecay: 0.5
   sickThreshold: 40
-  sicknessRate: 0.2
+  sicknessRate: 0.3
   hungerSphere: {fileID: 2114976905984768952}
   energySphere: {fileID: 3740338551049116063}
   healthSphere: {fileID: 7004617795397492418}
@@ -716,6 +718,136 @@ MonoBehaviour:
   sphereHeight: 0.35
   sphereSpacing: 0.08
   faceCamera: 1
+  Dirty: {fileID: 2100000, guid: 3a28ef198c2dfab4d8e8a38c394e5d7a, type: 2}
+  DirtyTired: {fileID: 2100000, guid: 6287236d1558ab947a4ab0db7e49b7da, type: 2}
+  HappyFace: {fileID: 2100000, guid: 06c11f9c0123b054cabe3e631b4c800d, type: 2}
+  OkayFace: {fileID: 2100000, guid: bc8c6f33731f8294999bcb6d6bf5c13c, type: 2}
+  SadFace: {fileID: 2100000, guid: 48f0ba47f4a29db4d8cbc821f2703198, type: 2}
+  SickDirtyFace: {fileID: 2100000, guid: 8cd15de51585a5146985e8208f882d82, type: 2}
+  SickDirtyTiredFace: {fileID: 2100000, guid: 4ff7bb3a55a864f4889c08f6c4172290, type: 2}
+  SickFace: {fileID: 2100000, guid: f17976137cbfd0949817dc147cb2e4bc, type: 2}
+  SickTiredFace: {fileID: 2100000, guid: bfa5d96c2aa8a1e4e9573adfb3bd04b1, type: 2}
+  TiredFace: {fileID: 2100000, guid: 8a1debe7db909624285b8af668ab6f4e, type: 2}
+  pouRenderer: {fileID: 6772834874422112817}
+--- !u!114 &5404705768305630586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296019595181625030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547100d2a0cb87646a2385daad5cdc07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pouBody: {fileID: 4920070288641265587}
+  emojiPrefab: {fileID: 3115377061293218877, guid: e058f9866c3d0324091a059c961f012b, type: 3}
+  emojiHeight: 0.2
+  bubbleEffect: {fileID: 7022268795503775818, guid: 7377f38a94f13bd43924090d4a77f29e, type: 3}
+  healEffect: {fileID: 370903732007794658, guid: 4c99db016d646e1409dc81894eb7057e, type: 3}
+  audioSource: {fileID: -9132773982897396048}
+  feedSound: {fileID: 8300000, guid: fb62ddab91734fc41b0905693228f5e7, type: 3}
+  sleepSound: {fileID: 8300000, guid: 4a7e8438d484b9448ba52501c66d4999, type: 3}
+  cleanSound: {fileID: 8300000, guid: 9d781933c23a3b34fb3f59dc126f3d0c, type: 3}
+  medicineSound: {fileID: 8300000, guid: d31a9509a42a29441a8c71a2d704aa5f, type: 3}
+--- !u!82 &-9132773982897396048
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296019595181625030}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.15
+  MaxDistance: 3
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8382578734610837929
 GameObject:
   m_ObjectHideFlags: 0
