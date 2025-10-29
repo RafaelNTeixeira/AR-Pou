@@ -2094,7 +2094,7 @@ PrefabInstance:
     - target: {fileID: 7887547685917526947, guid: 4b749c6af2e21824e8aa23a340099f65, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 55478d86298472547ac2a4f6f048f0a8, type: 2}
+      objectReference: {fileID: 2100000, guid: 6d2c07a14ab70a543b5906805535029e, type: 2}
     - target: {fileID: 8168109304787201757, guid: 4b749c6af2e21824e8aa23a340099f65, type: 3}
       propertyPath: m_Name
       value: Environment_15ftx12.5ft_DR001
@@ -2110,7 +2110,7 @@ PrefabInstance:
     - target: {fileID: 8674948657943841261, guid: 4b749c6af2e21824e8aa23a340099f65, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: d09c25d2cc798364885865f8b2268e44, type: 2}
+      objectReference: {fileID: 2100000, guid: 0d6f4117f2af50c4c938111d95e01f65, type: 2}
     - target: {fileID: 8711233442051958114, guid: 4b749c6af2e21824e8aa23a340099f65, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

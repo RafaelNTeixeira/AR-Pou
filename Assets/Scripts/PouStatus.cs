@@ -10,13 +10,13 @@ public class PouStatus : MonoBehaviour
     public string pouMood = "Happy";
 
     [Header("Decay rates (points per second)")]
-    public float hungerDecay = 1f;
-    public float energyDecay = 0.5f;
-    public float cleanlinessDecay = 0.3f;
+    public float hungerDecay = 1f; 
+    public float energyDecay = 0.3f;
+    public float cleanlinessDecay = 0.5f;
 
     [Header("Illness parameters")]
     public float sickThreshold = 40f;
-    public float sicknessRate = 0.2f;
+    public float sicknessRate = 0.3f;
 
     [Header("Sphere references")]
     public Transform hungerSphere; 
@@ -29,16 +29,43 @@ public class PouStatus : MonoBehaviour
     public float sphereSpacing = 0.08f;
     public bool faceCamera = true;
 
+    [Header("Pou Face Materials")]
+    public Material Dirty;
+    public Material DirtyTired;
+    public Material HappyFace;
+    public Material OkayFace;
+    public Material SadFace;
+    public Material SickDirtyFace;
+    public Material SickDirtyTiredFace;
+    public Material SickFace;
+    public Material SickTiredFace;
+    public Material TiredFace;
+
     private Transform statusHolder;
 
     private Transform mainCameraTransform;
+    public Renderer pouRenderer;
+
+    // Last-state trackers to know when to update the material
+    private string lastMood;
+    private bool lastIsDirty;
+    private bool lastIsSick;
+    private bool lastIsTired;
 
     void Start()
-    {
-        if (Camera.main != null)
-        {
-            mainCameraTransform = Camera.main.transform;
-        }
+{
+    if (Camera.main != null)
+        mainCameraTransform = Camera.main.transform;
+
+    if (pouRenderer == null)
+        Debug.LogWarning("Pou Renderer not assigned! Please assign it in the Inspector.");
+
+        lastMood = pouMood;
+        lastIsDirty = cleanliness < 50f;
+        lastIsSick = health < 50f;
+        lastIsTired = energy < 50f;
+
+        UpdateTexture();
     }
 
     void Update()
@@ -47,6 +74,21 @@ public class PouStatus : MonoBehaviour
         UpdateSphereColors();
         UpdateMood();
         HandleCameraFacing();
+
+        // Recompute current booleans
+        bool isDirty = cleanliness < 50f;
+        bool isSick = health < 50f;
+        bool isTired = energy < 50f;
+
+        // Update texture if any of the relevant state values changed (mood, dirty, sick, tired)
+        if (pouMood != lastMood || isDirty != lastIsDirty || isSick != lastIsSick || isTired != lastIsTired)
+        {
+            UpdateTexture();
+            lastMood = pouMood;
+            lastIsDirty = isDirty;
+            lastIsSick = isSick;
+            lastIsTired = isTired;
+        }
     }
 
     // Decrease needs over time
@@ -89,11 +131,48 @@ public class PouStatus : MonoBehaviour
     {
         float average = (hunger + energy + health + cleanliness) / 4f;
 
-        if (average >= 85f) pouMood = "Happy";
-        else if (average >= 65f) pouMood = "Okay";
-        else if (average >= 40f) pouMood = "Sad";
-        else if (average >= 20f) pouMood = "Sick";
-        else pouMood = "Depressed";
+        if (average >= 75f) pouMood = "Happy";
+        else if (average >= 50f) pouMood = "Okay";
+        else  pouMood = "Sad";
+    }
+
+    // Update the Pou's texture based on mood and cleanliness
+    void UpdateTexture()
+    {
+        if (pouRenderer == null) return;
+
+        Material newMaterial = null;
+
+        // Choose texture based on cleanliness and mood
+        bool isDirty = cleanliness < 50f;
+        bool isSick = health < 50f;
+        bool isTired = energy < 50f;
+
+        // Choose material based on condition combinations
+        if (isDirty && isSick && isTired) newMaterial = SickDirtyTiredFace;
+        else if (isDirty && isSick) newMaterial = SickDirtyFace;
+        else if (isSick && isTired) newMaterial = SickTiredFace;
+        else if (isSick) newMaterial = SickFace;
+        else if (isDirty && isTired) newMaterial = DirtyTired;
+        else if (isDirty) newMaterial = Dirty;
+        else if (isTired) newMaterial = TiredFace;
+        else
+        {
+            // Mood based faces when none of the above special conditions apply
+            switch (pouMood)
+            {
+                case "Happy": newMaterial = HappyFace; break;
+                case "Okay": newMaterial = OkayFace; break;
+                case "Sad": newMaterial = SadFace; break;
+                default: newMaterial = OkayFace; break;
+            }
+        }
+
+        // Apply material only if changed
+        if (newMaterial != null && pouRenderer.material != newMaterial)
+        {
+            pouRenderer.material = newMaterial;
+        }
     }
     
     // Rotates each sphere to look at the camera
