@@ -3,7 +3,7 @@ using UnityEngine;
 public class MazeDetector : MonoBehaviour
 {
     [Tooltip("How far the box gets pushed back when it hits the maze.")]
-    public float knockbackDistance = 0.5f;
+    public float knockbackDistance = 0.001f;
 
     // We need a reference to the box's *own* collider for the calculation
     private Collider myCollider;

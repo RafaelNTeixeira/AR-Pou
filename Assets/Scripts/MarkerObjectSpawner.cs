@@ -10,6 +10,8 @@ public class MarkerObjectSpawner : MonoBehaviour
     {
         public string markerName;
         public GameObject prefab;
+        public Vector3 rotationOffset;
+        public Vector3 translationOffset;
     }
 
     public MarkerPrefab[] markerPrefabs;
@@ -74,7 +76,10 @@ public class MarkerObjectSpawner : MonoBehaviour
         }
 
         // Update position + visibility
-        spawned.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
+        spawned.transform.SetPositionAndRotation(
+            trackedImage.transform.position + trackedImage.transform.rotation * prefabEntry.translationOffset,
+            trackedImage.transform.rotation * Quaternion.Euler(prefabEntry.rotationOffset)
+        );
 
         // Activate only while tracking
         if (trackedImage.trackingState == TrackingState.Tracking)
