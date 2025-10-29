@@ -3,7 +3,7 @@ using UnityEngine;
 public class DeliverableObject : MonoBehaviour
 {
     [Header("Object Properties")]
-    [SerializeField] private int objectIndex; // 0=Pizza, 1=Bed, 2=Pill
+    [SerializeField] private int objectIndex; // 0=Pizza, 1=Bed, 2=Soap, 3=Pill
     
     private bool hasBeenDelivered = false;
     private Renderer[] renderers;
@@ -46,7 +46,8 @@ public class DeliverableObject : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Minigame2Manager not found!");
+            //Debug.LogWarning("Minigame2Manager not found!");
+            return;
         }
 
         // Hide the object

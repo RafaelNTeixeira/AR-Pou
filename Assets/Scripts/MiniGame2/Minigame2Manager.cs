@@ -5,7 +5,7 @@ using UnityEngine;
 public class Minigame2Manager : MonoBehaviour
 {
     [Header("Game Settings")]
-    public GameObject[] objectPrefabs;  // 0 = Pizza, 1 = Bed, 2 = Pill
+    public GameObject[] objectPrefabs;  // 0 = Pizza, 1 = Bed, 2 = Soap, 3 = Pill
     public float timeBetweenObjects = 1f;
     public float displayDuration = 1.5f; // How long each object stays visible
     
@@ -21,16 +21,18 @@ public class Minigame2Manager : MonoBehaviour
     private int currentRound = 1;
     private bool playerTurn = false;
     private bool gameOver = false;
+    public static bool IsMinigameActive { get; private set; } = false;
 
     void Start()
     {
+        IsMinigameActive = true;
         SetupMinigameMode(true);
         StartCoroutine(StartRound());
     }
 
     void OnDisable()
     {
-        // Re-enable normal mode when minigame is disabled
+        IsMinigameActive = false;
         SetupMinigameMode(false);
     }
 
@@ -86,19 +88,22 @@ public class Minigame2Manager : MonoBehaviour
     IEnumerator ShowSequenceToPlayer()
     {
         Debug.Log("👀 Showing sequence...");
-        
+
         foreach (int objIndex in sequence)
         {
-            // Instantiate object at display position
+            // Instantiate object (unparented to avoid inheriting scale)
             GameObject displayObj = Instantiate(
                 objectPrefabs[objIndex],
                 sequenceDisplayPosition.position,
                 sequenceDisplayPosition.rotation
             );
-            
-            // Adjust size
-            displayObj.transform.localScale = Vector3.one * displayScale;
-            
+
+            // Set exact world scale
+            //displayObj.transform.localScale = Vector3.one * displayScale;
+
+            // Optional: Parent it after scaling (keep world transform)
+            displayObj.transform.SetParent(sequenceDisplayPosition, worldPositionStays: true);
+
             // Optional: Particles
             if (sequenceParticles != null)
             {
@@ -109,17 +114,17 @@ public class Minigame2Manager : MonoBehaviour
                 );
                 Destroy(particles, 2f);
             }
-            
+
             // Keep object visible
             yield return new WaitForSeconds(displayDuration);
-            
+
             // Destroy object
             Destroy(displayObj);
-            
+
             // Pause between objects
             yield return new WaitForSeconds(timeBetweenObjects);
         }
-        
+
         Debug.Log("✅ Sequence shown! Now it's player's turn.");
     }
 
@@ -183,7 +188,7 @@ public class Minigame2Manager : MonoBehaviour
     // Helper for debug
     string GetObjectName(int index)
     {
-        string[] names = { "Pizza", "Bed", "Pill" };
+        string[] names = { "Pizza", "Bed", "Soap", "Pill" };
         return index >= 0 && index < names.Length ? names[index] : "Unknown";
     }
 

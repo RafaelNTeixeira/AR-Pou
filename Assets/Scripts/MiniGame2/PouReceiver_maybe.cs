@@ -12,11 +12,12 @@ public class PouReceiver : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         int objectIndex = -1;
-        
+
         // Identify object type by tag
         if (other.CompareTag("Food")) objectIndex = 0;
         else if (other.CompareTag("Bed")) objectIndex = 1;
-        else if (other.CompareTag("Pill")) objectIndex = 2;
+        else if (other.CompareTag("Soap")) objectIndex = 2;
+        else if (other.CompareTag("Pill")) objectIndex = 3;
         
         // If a recognized object was detected
         if (objectIndex != -1)
@@ -32,7 +33,7 @@ public class PouReceiver : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         // Reset object visibility when it leaves Pou's area
-        if (other.CompareTag("Food") || other.CompareTag("Bed") || other.CompareTag("Pill"))
+        if (other.CompareTag("Food") || other.CompareTag("Bed") || other.CompareTag("Soap") || other.CompareTag("Pill"))
         {
             SetObjectVisible(other.gameObject, true);
         }
