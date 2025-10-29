@@ -107,3 +107,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: UpMarker
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5736762559262408388
+      m_GuidHigh: 4241641320250224268
+    m_SerializedTextureGuid:
+      m_GuidLow: 1672015795676204690
+      m_GuidHigh: 5172083596582870715
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: MazeMarker
+    m_Texture: {fileID: 0}
