@@ -8,6 +8,12 @@ public class PouOutfitManager : MonoBehaviour
     public GameObject snowBeanie;
     public GameObject sunglasses;
 
+    [Header("Weather Effects")]
+    [Tooltip("The particle system for rain. Should be a child of Pou.")]
+    public ParticleSystem rainEffect;
+    [Tooltip("The particle system for snow. Should be a child of Pou.")]
+    public ParticleSystem snowEffect;
+
     [Header("UI Reference")]
     [Tooltip("The World Space Canvas that holds the speech bubble.")]
     public Canvas pouCanvas;
@@ -53,9 +59,17 @@ public class PouOutfitManager : MonoBehaviour
     /// </summary>
     void UpdateOutfitStatusMessage()
     {
-        if (WeatherManager.Instance == null || pouSpeechBubbleText == null)
+        if (WeatherManager.Instance == null)
         {
             return; // Not ready, do nothing
+        }
+
+        rainEffect?.gameObject.SetActive(WeatherManager.Instance.isRaining);
+        snowEffect?.gameObject.SetActive(WeatherManager.Instance.isSnowing);
+
+        if (pouSpeechBubbleText == null)
+        {
+            return; 
         }
 
         // Get current weather needs
