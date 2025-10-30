@@ -55,7 +55,7 @@ public class PouMazeMovement : MonoBehaviour
         if (moveDirection != Vector3.zero)
         {
             transform.Translate(
-                moveDirection.normalized * moveSpeed * Time.deltaTime, 
+                moveDirection.normalized * moveSpeed * Time.deltaTime * 0.5f, 
                 Space.Self
             );
         }
