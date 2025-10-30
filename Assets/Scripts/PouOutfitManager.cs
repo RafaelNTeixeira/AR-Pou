@@ -20,7 +20,6 @@ public class PouOutfitManager : MonoBehaviour
     {
         if (WeatherManager.Instance == null) return false;
 
-        // CHECK: Is it raining?
         if (WeatherManager.Instance.isRaining)
         {
             UnequipAll(); // Take off other items
