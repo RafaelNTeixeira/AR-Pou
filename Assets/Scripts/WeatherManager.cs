@@ -38,6 +38,26 @@ public class WeatherManager : MonoBehaviour
     public bool isCloudy;
     public bool isNight;
 
+    [Header("Scene Lighting")]
+    [Tooltip("The main directional light in the scene (e.g., the 'Sun').")]
+    public Light mainDirectionalLight;
+    
+    [Header("Day Lighting")]
+    [ColorUsage(false, false)]
+    public Color dayAmbientColor = new Color(0.8f, 0.8f, 0.8f);
+    [Range(0, 8)]
+    public float dayAmbientIntensity = 1f;
+    [Range(0, 8)]
+    public float dayLightIntensity = 1f;
+
+    [Header("Night Lighting")]
+    [ColorUsage(false, false)]
+    public Color nightAmbientColor = new Color(0.2f, 0.2f, 0.3f);
+    [Range(0, 8)]
+    public float nightAmbientIntensity = 0.3f;
+    [Range(0, 8)]
+    public float nightLightIntensity = 0.1f;
+
     [Header("Debug Mode")]
     [Tooltip("If true, the live API will not be called. Instead, you can force weather states below.")]
     public bool useDebugMode = false;
@@ -64,6 +84,8 @@ public class WeatherManager : MonoBehaviour
 
     void Start()
     {
+        UpdateSceneLighting(); 
+        
         // Start a loop that will repeatedly call GetWeather.
         StartCoroutine(WeatherUpdateLoop());
     }
@@ -89,7 +111,6 @@ public class WeatherManager : MonoBehaviour
                 Debug.Log($"WeatherManager: Waiting {updateIntervalSeconds} seconds for next update.");
                 yield return new WaitForSeconds(updateIntervalSeconds);
             }
-            // --- END MODIFIED ---
         }
     }
 
@@ -117,16 +138,16 @@ public class WeatherManager : MonoBehaviour
 
             Debug.Log($"Weather flags — Rain: {isRaining}, Snow: {isSnowing}, Sunny: {isSunny}, Cloudy: {isCloudy}, Night: {isNight}");
 
+            UpdateSceneLighting();
+
             // Fire the event to make Pou change his outfit!
             OnWeatherUpdated?.Invoke();
         }
     }
-    // --- END NEW ---
-
 
     IEnumerator GetWeather()
     {
-        if (useDebugMode) yield break; 
+        if (useDebugMode) yield break;
 
         string url = $"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={apiKey}&contentType=json";
 
@@ -183,6 +204,8 @@ public class WeatherManager : MonoBehaviour
 
                     Debug.Log($"Weather flags — Rain: {isRaining}, Snow: {isSnowing}, Sunny: {isSunny}, Cloudy: {isCloudy}, Night: {isNight}");
 
+                    UpdateSceneLighting();
+
                     // Notify all subscribers that the weather has been updated
                     OnWeatherUpdated?.Invoke();
                 }
@@ -190,6 +213,31 @@ public class WeatherManager : MonoBehaviour
                 {
                     Debug.LogWarning("Unable to parse weather data.");
                 }
+            }
+        }
+    }
+    
+    // Updates the scene's ambient and directional light based on the isNight flag
+    void UpdateSceneLighting()
+    {
+        if (isNight)
+        {
+            // Set scene lighting to night values
+            RenderSettings.ambientLight = nightAmbientColor;
+            RenderSettings.ambientIntensity = nightAmbientIntensity;
+            if (mainDirectionalLight != null)
+            {
+                mainDirectionalLight.intensity = nightLightIntensity;
+            }
+        }
+        else
+        {
+            // Set scene lighting to day values
+            RenderSettings.ambientLight = dayAmbientColor;
+            RenderSettings.ambientIntensity = dayAmbientIntensity;
+            if (mainDirectionalLight != null)
+            {
+                mainDirectionalLight.intensity = dayLightIntensity;
             }
         }
     }

@@ -634,6 +634,13 @@ MonoBehaviour:
   isSnowing: 0
   isCloudy: 0
   isNight: 0
+  mainDirectionalLight: {fileID: 1075000275}
+  dayAmbientColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  dayAmbientIntensity: 1
+  dayLightIntensity: 1
+  nightAmbientColor: {r: 0.2, g: 0.2, b: 0.3, a: 1}
+  nightAmbientIntensity: 0.3
+  nightLightIntensity: 0.1
   useDebugMode: 1
   forceRaining: 0
   forceSunny: 1
