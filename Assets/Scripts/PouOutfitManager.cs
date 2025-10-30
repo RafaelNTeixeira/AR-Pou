@@ -37,7 +37,6 @@ public class PouOutfitManager : MonoBehaviour
     {
         if (WeatherManager.Instance == null) return false;
 
-        // CHECK: Is it snowing?
         if (WeatherManager.Instance.isSnowing)
         {
             UnequipAll();
@@ -55,7 +54,6 @@ public class PouOutfitManager : MonoBehaviour
     {
         if (WeatherManager.Instance == null) return false;
 
-        // CHECK: Is it sunny and daytime?
         if (WeatherManager.Instance.isSunny && !WeatherManager.Instance.isNight)
         {
             UnequipAll();
