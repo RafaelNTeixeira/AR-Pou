@@ -14,6 +14,9 @@ public class PouStatus : MonoBehaviour
     public float energyDecay = 0.3f;
     public float cleanlinessDecay = 0.5f;
 
+    [Tooltip("Multiplier for energy decay when it's night.")]
+    public float nightDecayMultiplier = 2f; // e.g., 2x faster
+
     [Header("Illness parameters")]
     public float sickThreshold = 40f;
     public float sicknessRate = 0.3f;
@@ -95,8 +98,17 @@ public class PouStatus : MonoBehaviour
     void UpdateNeeds(float dt)
     {
         hunger = Mathf.Clamp(hunger - hungerDecay * dt, 0, 100);
-        energy = Mathf.Clamp(energy - energyDecay * dt, 0, 100);
         cleanliness = Mathf.Clamp(cleanliness - cleanlinessDecay * dt, 0, 100);
+
+        float currentEnergyDecay = energyDecay;
+
+        if (WeatherManager.Instance != null && WeatherManager.Instance.isNight)
+        {
+            // If it is night, apply the multiplier to consume more energy.
+            currentEnergyDecay *= nightDecayMultiplier;
+        }
+
+        energy = Mathf.Clamp(energy - currentEnergyDecay * dt, 0, 100);
 
         // Health decreases if hunger or cleanliness are below the sick threshold
         if (hunger < sickThreshold || cleanliness < sickThreshold)
