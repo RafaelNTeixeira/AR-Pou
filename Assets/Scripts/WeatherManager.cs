@@ -18,9 +18,18 @@ public class WeatherResponse
 
 public class WeatherManager : MonoBehaviour
 {
+    // Singleton Pattern
+    public static WeatherManager Instance { get; private set; }
+
+    // Any script can subscribe to this without needing a reference to the specific WeatherManager object.
+    public static event Action OnWeatherUpdated;
+
     [Header("Visual Crossing Settings")]
     public string apiKey = "NMWLG82ZH5335NBB3KZXWFNDJ";
-    public string city = "Porto"; // use GPS later
+    public string city = "Porto";
+
+    [Header("Update Frequency")]
+    public float updateIntervalSeconds = 300f; // Every 5 minutes
 
     [Header("Weather Status")]
     public bool isRaining;
@@ -29,17 +38,101 @@ public class WeatherManager : MonoBehaviour
     public bool isCloudy;
     public bool isNight;
 
+    [Header("Debug Mode")]
+    [Tooltip("If true, the live API will not be called. Instead, you can force weather states below.")]
+    public bool useDebugMode = false;
+    
+    [Header("Debug Weather States")]
+    public bool forceRaining;
+    public bool forceSunny;
+    public bool forceSnowing;
+    public bool forceCloudy;
+    public bool forceNight;
+
+    void Awake()
+    {
+        // Standard singleton setup
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
-        StartCoroutine(GetWeather());
+        // Start a loop that will repeatedly call GetWeather.
+        StartCoroutine(WeatherUpdateLoop());
     }
+    
+    IEnumerator WeatherUpdateLoop()
+    {
+        while (true)
+        {
+            // If in debug mode, run the debug logic. Otherwise, fetch the real weather.
+            if (useDebugMode)
+            {
+                // This function will apply your forced states
+                ApplyDebugWeather();
+                // Wait 1 second before checking again
+                yield return new WaitForSeconds(1f); 
+            }
+            else
+            {
+                // This is the normal, original behavior
+                Debug.Log("WeatherManager: Fetching new weather data...");
+                yield return StartCoroutine(GetWeather());
+                
+                Debug.Log($"WeatherManager: Waiting {updateIntervalSeconds} seconds for next update.");
+                yield return new WaitForSeconds(updateIntervalSeconds);
+            }
+            // --- END MODIFIED ---
+        }
+    }
+
+    // Function to apply debug weather states
+    void ApplyDebugWeather()
+    {
+        // Check if any debug value has changed since the last check
+        bool stateChanged =
+            isRaining != forceRaining ||
+            isSnowing != forceSnowing ||
+            isSunny != forceSunny ||
+            isCloudy != forceCloudy ||
+            isNight != forceNight;
+
+        if (stateChanged)
+        {
+            Debug.LogWarning("--- DEBUG MODE: Forcing new weather state ---");
+            
+            // Apply the forced values to the actual state variables
+            isRaining = forceRaining;
+            isSnowing = forceSnowing;
+            isSunny = forceSunny;
+            isCloudy = forceCloudy;
+            isNight = forceNight;
+
+            Debug.Log($"Weather flags — Rain: {isRaining}, Snow: {isSnowing}, Sunny: {isSunny}, Cloudy: {isCloudy}, Night: {isNight}");
+
+            // Fire the event to make Pou change his outfit!
+            OnWeatherUpdated?.Invoke();
+        }
+    }
+    // --- END NEW ---
+
 
     IEnumerator GetWeather()
     {
+        if (useDebugMode) yield break; 
+
         string url = $"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={apiKey}&contentType=json";
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
+            // ... (The rest of your GetWeather function is identical) ...
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -89,6 +182,9 @@ public class WeatherManager : MonoBehaviour
                         isCloudy = true;
 
                     Debug.Log($"Weather flags — Rain: {isRaining}, Snow: {isSnowing}, Sunny: {isSunny}, Cloudy: {isCloudy}, Night: {isNight}");
+
+                    // Notify all subscribers that the weather has been updated
+                    OnWeatherUpdated?.Invoke();
                 }
                 else
                 {
