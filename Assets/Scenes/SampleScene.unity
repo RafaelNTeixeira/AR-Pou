@@ -190,6 +190,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387470528047719, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1553500810}
+    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!1 &331264286 stripped
 GameObject:
@@ -345,6 +348,18 @@ MonoBehaviour:
     prefab: {fileID: 44401259199533581, guid: 3ff0b247d4af05f46a5bcb3ccd24a1f7, type: 3}
     rotationOffset: {x: -90, y: 0, z: 0}
     translationOffset: {x: 0, y: 0, z: 0}
+  - markerName: SunglassesMarker
+    prefab: {fileID: 2635023391027596652, guid: 78c2432375b11b743aa7058477b3bf3d, type: 3}
+    rotationOffset: {x: -90, y: 0, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
+  - markerName: RainHatMarker
+    prefab: {fileID: 7162595606000785030, guid: a6799d16069c5484985656cf09410553, type: 3}
+    rotationOffset: {x: -90, y: -90, z: 0}
+    translationOffset: {x: 0, y: -0.07, z: 0}
+  - markerName: BeanieMarker
+    prefab: {fileID: 5508473912719941455, guid: 2105c9cc2864f7c469adf4aa005b3cc6, type: 3}
+    rotationOffset: {x: -90, y: 0, z: 0}
+    translationOffset: {x: 0, y: -0.43, z: -0.03}
 --- !u!4 &1062448169
 Transform:
   m_ObjectHideFlags: 0
@@ -622,9 +637,9 @@ MonoBehaviour:
   isSnowing: 0
   isCloudy: 0
   isNight: 0
-  useDebugMode: 0
+  useDebugMode: 1
   forceRaining: 0
-  forceSunny: 0
+  forceSunny: 1
   forceSnowing: 0
   forceCloudy: 0
   forceNight: 0

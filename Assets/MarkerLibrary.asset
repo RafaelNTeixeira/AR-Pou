@@ -117,3 +117,33 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: MazeMarker
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5686235945363523157
+      m_GuidHigh: 4083517445885945788
+    m_SerializedTextureGuid:
+      m_GuidLow: 28384111925280766
+      m_GuidHigh: 2464459500366148394
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: SunglassesMarker
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5244670731064773360
+      m_GuidHigh: 8281304021124985265
+    m_SerializedTextureGuid:
+      m_GuidLow: 16340189928899991883
+      m_GuidHigh: 9641483607433148440
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: RainHatMarker
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5392043660786649613
+      m_GuidHigh: 12514636177230142371
+    m_SerializedTextureGuid:
+      m_GuidLow: 10431615929169778114
+      m_GuidHigh: 14099287916577515723
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: BeanieMarker
+    m_Texture: {fileID: 0}

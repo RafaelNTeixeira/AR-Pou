@@ -7,59 +7,65 @@ public class PouOutfitManager : MonoBehaviour
     public GameObject snowBeanie;
     public GameObject sunglasses;
 
-
-    // OnEnable runs every time the prefab is instantiated or set to active.
-    void OnEnable()
+    /// Deactivates all outfit items. Called before equipping a new one to ensure no overlap.
+    private void UnequipAll()
     {
-        // Subscribe our 'UpdateOutfit' method to the static event.
-        WeatherManager.OnWeatherUpdated += UpdateOutfit;
-
-        // We must also check the weather *immediately* when Pou spawns, in case we missed the last event.
-        // We check if 'Instance' is not null, which it should be if WeatherManager is in the scene.
-        if (WeatherManager.Instance != null)
-        {
-            UpdateOutfit();
-        }
-        else
-        {
-            Debug.LogWarning("PouOutfitManager: Could not find WeatherManager.Instance on spawn. Outfits may not be correct.");
-        }
-    }
-
-    // OnDisable runs when the object is disabled (e.g., marker lost) or destroyed.
-    void OnDisable()
-    {
-        // Always unsubscribe from static events to prevent errors when the object is destroyed.
-        WeatherManager.OnWeatherUpdated -= UpdateOutfit;
-    }
-
-    void UpdateOutfit()
-    {
-        // Check if the WeatherManager singleton instance exists
-        if (WeatherManager.Instance == null)
-        {
-            Debug.LogWarning("PouOutfitManager: WeatherManager.Instance is not ready. Skipping outfit update.");
-            return;
-        }
-
-        // Deactivate all outfits by default
         rainHat?.SetActive(false);
         snowBeanie?.SetActive(false);
         sunglasses?.SetActive(false);
+    }
 
-        // Activate outfits based on current weather conditions
+    /// Tries to equip the rain hat. Only succeeds if it is currently raining.
+    public bool TryEquipRainHat()
+    {
+        if (WeatherManager.Instance == null) return false;
+
+        // CHECK: Is it raining?
         if (WeatherManager.Instance.isRaining)
         {
+            UnequipAll(); // Take off other items
             rainHat?.SetActive(true);
+            Debug.Log("Pou put on the rain hat.");
+            return true; 
         }
-        else if (WeatherManager.Instance.isSnowing)
+        
+        Debug.Log("Pou can't wear the rain hat! It's not raining.");
+        return false; 
+    }
+
+    /// Tries to equip the snow beanie. Only succeeds if it is currently snowing.
+    public bool TryEquipSnowBeanie()
+    {
+        if (WeatherManager.Instance == null) return false;
+
+        // CHECK: Is it snowing?
+        if (WeatherManager.Instance.isSnowing)
         {
+            UnequipAll();
             snowBeanie?.SetActive(true);
+            Debug.Log("Pou put on the snow beanie.");
+            return true;
         }
-        else if (WeatherManager.Instance.isSunny && !WeatherManager.Instance.isNight)
+
+        Debug.Log("Pou can't wear the snow beanie! It's not snowing.");
+        return false;
+    }
+
+    /// Tries to equip sunglasses. Only succeeds if it is sunny AND not night.
+    public bool TryEquipSunglasses()
+    {
+        if (WeatherManager.Instance == null) return false;
+
+        // CHECK: Is it sunny and daytime?
+        if (WeatherManager.Instance.isSunny && !WeatherManager.Instance.isNight)
         {
-            // Only wear sunglasses if it's sunny and it's not night
+            UnequipAll();
             sunglasses?.SetActive(true);
+            Debug.Log("Pou put on the sunglasses.");
+            return true;
         }
+
+        Debug.Log("Pou can't wear sunglasses! It's not sunny or it's night.");
+        return false;
     }
 }

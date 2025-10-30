@@ -7,7 +7,10 @@ public class ItemTrigger : MonoBehaviour
         Food,
         Health,
         Shower,
-        Sleep
+        Sleep,
+        Sunglasses,
+        SnowBeanie,
+        RainHat
     }
 
     [Header("Item Properties")]
@@ -47,6 +50,8 @@ public class ItemTrigger : MonoBehaviour
 
         PouStatus pouStatus = pou.GetComponent<PouStatus>();
         PouAnimator pouAnimator = pou.GetComponent<PouAnimator>();
+        PouOutfitManager pouOutfitManager = pou.GetComponent<PouOutfitManager>();
+
         if (pouStatus != null)
         {
             // Call appropriate method based on item type
@@ -74,6 +79,36 @@ public class ItemTrigger : MonoBehaviour
                     pouStatus.Sleep(itemValue);
                     pouAnimator.PlaySleepAnimation();
                     Debug.Log($"Pou slept on {gameObject.name}, energy increased by {itemValue}");
+                    break;
+
+                case ItemType.Sunglasses:
+                    if (pouOutfitManager != null)
+                    {
+                        if (pouOutfitManager.TryEquipSunglasses())
+                        {
+                            Debug.Log("Pou equipped sunglasses.");
+                        }
+                    }
+                    break;
+
+                case ItemType.SnowBeanie:
+                    if (pouOutfitManager != null)
+                    {
+                        if (pouOutfitManager.TryEquipSnowBeanie())
+                        {
+                            Debug.Log("Pou equipped snow beanie.");
+                        }
+                    }
+                    break;
+
+                case ItemType.RainHat:
+                    if (pouOutfitManager != null)
+                    {
+                        if (pouOutfitManager.TryEquipRainHat())
+                        {
+                            Debug.Log("Pou equipped rain hat.");
+                        }
+                    }
                     break;
             }
         }
