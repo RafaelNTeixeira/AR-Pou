@@ -21,6 +21,16 @@ public class PouStatus : MonoBehaviour
     public float sickThreshold = 40f;
     public float sicknessRate = 0.3f;
 
+    [Header("Growth Parameters")]
+    [Tooltip("The starting scale multiplier for Pou.")]
+    public float minScale = 1f;
+    [Tooltip("The maximum scale multiplier Pou can reach.")]
+    public float maxScale = 3f;
+    [Tooltip("How many units of scale Pou grows per second.")]
+    public float growthPerSecond = 0.001f;
+    private float currentAge = 0f;
+    private Vector3 initialScale;
+
     [Header("Sphere references")]
     public Transform hungerSphere; 
     public Transform energySphere; 
@@ -56,12 +66,12 @@ public class PouStatus : MonoBehaviour
     private bool lastIsTired;
 
     void Start()
-{
-    if (Camera.main != null)
-        mainCameraTransform = Camera.main.transform;
+    {
+        initialScale = transform.localScale;
+        
+        if (Camera.main != null) mainCameraTransform = Camera.main.transform;
 
-    if (pouRenderer == null)
-        Debug.LogWarning("Pou Renderer not assigned! Please assign it in the Inspector.");
+        if (pouRenderer == null) Debug.LogWarning("Pou Renderer not assigned! Please assign it in the Inspector.");
 
         lastMood = pouMood;
         lastIsDirty = cleanliness < 50f;
@@ -73,7 +83,9 @@ public class PouStatus : MonoBehaviour
 
     void Update()
     {
-        UpdateNeeds(Time.deltaTime);
+        float dt = Time.deltaTime;
+        UpdateNeeds(dt);
+        UpdateGrowth(dt);
         UpdateSphereColors();
         UpdateMood();
         HandleCameraFacing();
@@ -115,6 +127,21 @@ public class PouStatus : MonoBehaviour
         {
             health = Mathf.Clamp(health - sicknessRate * dt, 0, 100);
         }
+    }
+
+    /// Increases Pou's age and scales his transform over time.
+    void UpdateGrowth(float dt)
+    {
+        currentAge += dt;
+
+        // Calculate the new scale multiplier based on age
+        float targetScaleMultiplier = minScale + (currentAge * growthPerSecond);
+
+        // Clamp the scale between the min and max values
+        float clampedScaleMultiplier = Mathf.Clamp(targetScaleMultiplier, minScale, maxScale);
+
+        // Apply the new scale, based on the initial scale
+        transform.localScale = initialScale * clampedScaleMultiplier;
     }
 
     // Update the colors of the spheres based on current values

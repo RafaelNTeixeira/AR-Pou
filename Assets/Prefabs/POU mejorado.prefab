@@ -5685,6 +5685,7 @@ MonoBehaviour:
   hungerDecay: 1
   energyDecay: 0.3
   cleanlinessDecay: 0.5
+  nightDecayMultiplier: 2
   sickThreshold: 40
   sicknessRate: 0.3
   hungerSphere: {fileID: 2114976905984768952}
