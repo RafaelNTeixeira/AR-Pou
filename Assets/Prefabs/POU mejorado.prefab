@@ -5614,6 +5614,7 @@ GameObject:
   - component: {fileID: 5404705768305630586}
   - component: {fileID: -9132773982897396048}
   - component: {fileID: -7614844456775504274}
+  - component: {fileID: 8455080796317237866}
   m_Layer: 0
   m_Name: POU mejorado
   m_TagString: Pou
@@ -5688,6 +5689,9 @@ MonoBehaviour:
   nightDecayMultiplier: 2
   sickThreshold: 40
   sicknessRate: 0.3
+  minScale: 1
+  maxScale: 3
+  growthPerSecond: 0.001
   hungerSphere: {fileID: 2114976905984768952}
   energySphere: {fileID: 3740338551049116063}
   healthSphere: {fileID: 7004617795397492418}
@@ -5728,6 +5732,9 @@ MonoBehaviour:
   sleepSound: {fileID: 8300000, guid: 4a7e8438d484b9448ba52501c66d4999, type: 3}
   cleanSound: {fileID: 8300000, guid: 9d781933c23a3b34fb3f59dc126f3d0c, type: 3}
   medicineSound: {fileID: 8300000, guid: d31a9509a42a29441a8c71a2d704aa5f, type: 3}
+  dizzySound: {fileID: 8300000, guid: e68eebc57485e814ea8fca3bd891e38e, type: 3}
+  spinDuration: 2
+  wobbleStrength: 15
 --- !u!82 &-9132773982897396048
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5844,6 +5851,21 @@ MonoBehaviour:
   snowEffect: {fileID: 646044487218549404}
   pouCanvas: {fileID: 538409347445999788}
   pouSpeechBubbleText: {fileID: 5323765967362111324}
+--- !u!114 &8455080796317237866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296019595181625030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06021e8c03f7084dbed855b9e664bcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeThreshold: 1
+  shakeCountRequired: 6
+  shakeWindow: 2
 --- !u!1 &8382578734610837929
 GameObject:
   m_ObjectHideFlags: 0

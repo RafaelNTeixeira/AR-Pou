@@ -20,14 +20,19 @@ public class PouAnimator : MonoBehaviour
     public AudioClip sleepSound;
     public AudioClip cleanSound;
     public AudioClip medicineSound;
+    public AudioClip dizzySound;
+
+    [Header("Dizzy Settings")]
+    [Tooltip("How long the 360-degree spin should take.")]
+    public float spinDuration = 2.0f;
+    [Tooltip("How much the body will wobble while spinning.")]
+    public float wobbleStrength = 15f;
 
     private bool isAnimating = false;
-    private Vector3 defaultScale;
 
     void Start()
     {
         if (pouBody == null) pouBody = transform;
-        defaultScale = pouBody.localScale;
     }
 
     private void PlaySound(AudioClip clip)
@@ -64,6 +69,14 @@ public class PouAnimator : MonoBehaviour
         ShowEmoji("<sprite name=medicine>");
     }
 
+    public void PlayDizzyAnimation()
+    {
+        if (!isAnimating)
+        {
+            StartCoroutine(DizzyRoutine());
+        }
+    }
+
     // Helper function to show emoji popup above Pou
     void ShowEmoji(string spriteTag)
     {
@@ -94,39 +107,38 @@ public class PouAnimator : MonoBehaviour
     private IEnumerator FeedRoutine()
     {
         isAnimating = true;
+        Vector3 currentInitialScale = pouBody.localScale; 
+        Vector3 chewScale = new Vector3(
+            currentInitialScale.x * 1.1f,
+            currentInitialScale.y * 0.9f,
+            currentInitialScale.z * 1.1f
+        );
 
-        // simple chew loop (scale squash/stretch)
         for (int i = 0; i < 4; i++)
         {
-            pouBody.localScale = new Vector3(
-                defaultScale.x * 1.1f,
-                defaultScale.y * 0.9f,
-                defaultScale.z * 1.1f
-            );
+            pouBody.localScale = chewScale;
             yield return new WaitForSeconds(0.1f);
-            pouBody.localScale = defaultScale;
+            pouBody.localScale = currentInitialScale;
             yield return new WaitForSeconds(0.1f);
         }
-
         isAnimating = false;
     }
 
     private IEnumerator SleepRoutine()
     {
         isAnimating = true;
-
+        Vector3 currentInitialScale = pouBody.localScale;
         float duration = 4f;
         float t = 0f;
 
         while (t < duration)
         {
-            float scaleOffset = Mathf.Sin(Time.time * 2f) * 0.02f; // breathing motion
-            pouBody.localScale = defaultScale * (1f + scaleOffset);
+            float scaleOffset = Mathf.Sin(Time.time * 2f) * 0.02f;
+            pouBody.localScale = currentInitialScale * (1f + scaleOffset);
             t += Time.deltaTime;
             yield return null;
         }
-
-        pouBody.localScale = defaultScale;
+        pouBody.localScale = currentInitialScale;
         isAnimating = false;
     }
 
@@ -134,15 +146,14 @@ public class PouAnimator : MonoBehaviour
     {
         isAnimating = true;
         SpawnParticle(healEffect);
+        Quaternion currentInitialRotation = pouBody.localRotation;
 
-        // Shake
         for (int i = 0; i < 10; i++)
         {
-            pouBody.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-10f, 10f));
+            pouBody.localRotation = currentInitialRotation * Quaternion.Euler(0f, 0f, Random.Range(-10f, 10f));
             yield return new WaitForSeconds(0.05f);
         }
-
-        pouBody.localRotation = Quaternion.identity;
+        pouBody.localRotation = currentInitialRotation;
         isAnimating = false;
     }
 
@@ -150,18 +161,41 @@ public class PouAnimator : MonoBehaviour
     {
         isAnimating = true;
         SpawnParticle(bubbleEffect);
-
-        // Small wiggle while cleaning
+        Quaternion currentInitialRotation = pouBody.localRotation;
         float timer = 1.5f;
+
         while (timer > 0f)
         {
             float angle = Mathf.Sin(Time.time * 10f) * 5f;
-            pouBody.localRotation = Quaternion.Euler(0f, angle, 0f);
+            pouBody.localRotation = currentInitialRotation * Quaternion.Euler(0f, angle, 0f);
             timer -= Time.deltaTime;
             yield return null;
         }
+        pouBody.localRotation = currentInitialRotation;
+        isAnimating = false;
+    }
+    
+    private IEnumerator DizzyRoutine()
+    {
+        isAnimating = true;
+        PlaySound(dizzySound);
 
-        pouBody.localRotation = Quaternion.identity;
+        Quaternion originalRotation = pouBody.localRotation;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < spinDuration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            // Wobble angle over time
+            float wobbleAngle = Mathf.Sin(elapsedTime * 12f) * wobbleStrength + Random.Range(-wobbleStrength, wobbleStrength) * 0.5f;
+            
+            pouBody.localRotation = originalRotation * Quaternion.Euler(0f, wobbleAngle, 0f);
+
+            yield return null;
+        }
+
+        pouBody.localRotation = originalRotation;
         isAnimating = false;
     }
 }

@@ -71,8 +71,11 @@ public class MarkerObjectSpawner : MonoBehaviour
         GameObject spawned;
         if (!spawnedPrefabs.TryGetValue(markerName, out spawned))
         {
-            spawned = Instantiate(prefabEntry.prefab, trackedImage.transform.position, trackedImage.transform.rotation);
-            spawnedPrefabs[markerName] = spawned;
+            spawned = Instantiate(prefabEntry.prefab, trackedImage.transform);
+            spawnedPrefabs.Add(markerName, spawned);
+
+            spawned.transform.localPosition = prefabEntry.translationOffset;
+            spawned.transform.localRotation = Quaternion.Euler(prefabEntry.rotationOffset);
         }
 
         // Update position + visibility
@@ -81,14 +84,6 @@ public class MarkerObjectSpawner : MonoBehaviour
             trackedImage.transform.rotation * Quaternion.Euler(prefabEntry.rotationOffset)
         );
 
-        // Activate only while tracking
-        if (trackedImage.trackingState == TrackingState.Tracking)
-        {
-            spawned.SetActive(true);
-        }
-        else
-        {
-            spawned.SetActive(false);
-        }
+        spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);
     }
 }
