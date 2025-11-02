@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using System.Collections.Generic;
+using System.Collections;
 
 public class MarkerObjectSpawner : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class MarkerObjectSpawner : MonoBehaviour
     private ARTrackedImageManager trackedImageManager;
     private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>();
 
+    public float displayTime = 60f; // 1 minute
+    public GameObject instructionsPanel;
+
+    private bool hasShown = false;
+
     void Awake()
     {
         trackedImageManager = FindFirstObjectByType<ARTrackedImageManager>();
@@ -32,6 +38,14 @@ public class MarkerObjectSpawner : MonoBehaviour
     void OnDisable()
     {
         trackedImageManager.trackedImagesChanged -= OnTrackablesChanged;
+    }
+
+    IEnumerator ShowInstructionsForTime()
+    {
+        instructionsPanel.SetActive(true); // show instructions
+        //Debug.Log("Waiting...");
+        yield return new WaitForSeconds(displayTime);
+        instructionsPanel.SetActive(false); // hide after 1 minute
     }
 
     // Called when tracked images are added, updated, or removed
@@ -90,5 +104,13 @@ public class MarkerObjectSpawner : MonoBehaviour
         {
             spawned.SetActive(false);
         }
+
+        //Activate the intrustions
+        if(prefabEntry.markerName == "MazeMarker" && !hasShown)
+        {
+            StartCoroutine(ShowInstructionsForTime());
+            hasShown = true;
+        }
+        
     }
 }
