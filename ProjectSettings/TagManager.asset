@@ -7,6 +7,7 @@ TagManager:
   - Pou
   - Food
   - Maze
+  - PouMinigame2
   layers:
   - Default
   - TransparentFX

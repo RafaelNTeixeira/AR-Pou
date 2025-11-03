@@ -20,10 +20,15 @@ public class MarkerObjectSpawner : MonoBehaviour
     private ARTrackedImageManager trackedImageManager;
     private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>();
 
+    [Header("Minigame 1 Instructions")]
     public float displayTime = 60f; // 1 minute
     public GameObject instructionsPanel;
 
-    private bool hasShown = false;
+    private bool hasShownMinigame1 = false;
+
+    [Header("Minigame 2 Instructions")]
+    public GameObject instructionsPanelMinigame2;
+    private bool hasShownMinigame2 = false;
 
     void Awake()
     {
@@ -46,6 +51,12 @@ public class MarkerObjectSpawner : MonoBehaviour
         //Debug.Log("Waiting...");
         yield return new WaitForSeconds(displayTime);
         instructionsPanel.SetActive(false); // hide after 1 minute
+    }
+
+    void ShowInstructionsMinigame2()
+    {
+        instructionsPanelMinigame2.SetActive(true);
+        hasShownMinigame2 = true;
     }
 
     // Called when tracked images are added, updated, or removed
@@ -99,12 +110,19 @@ public class MarkerObjectSpawner : MonoBehaviour
         );
 
         // Activate the instructions
-        if (prefabEntry.markerName == "MazeMarker" && !hasShown)
+        if (prefabEntry.markerName == "MazeMarker" && !hasShownMinigame1)
         {
             StartCoroutine(ShowInstructionsForTime());
-            hasShown = true;
+            hasShownMinigame1 = true;
         }
-        
+
+        // When Minigame2Marker is detected, show instructions once
+        if (prefabEntry.markerName == "Minigame2Marker" && !hasShownMinigame2)
+        {
+            Debug.Log("Minigame2Marker detected - showing instructions panel.");
+            ShowInstructionsMinigame2();
+        }
+
         spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);
     }
 }

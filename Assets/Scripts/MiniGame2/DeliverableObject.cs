@@ -17,7 +17,7 @@ public class DeliverableObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Pou") && !hasBeenDelivered)
+        if (other.CompareTag("PouMinigame2") && !hasBeenDelivered)
         {
             DeliverToPou();
         }
@@ -25,7 +25,7 @@ public class DeliverableObject : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Pou"))
+        if (other.CompareTag("PouMinigame2"))
         {
             // Reset visibility when leaving Pou
             ResetObject();
