@@ -52,7 +52,7 @@ public class MazeDetector : MonoBehaviour
                 // 'pushDirection' is the vector pointing *away* from the maze wall.
                 // We multiply this direction by our desired knockback distance
                 // to move the box.
-                transform.position += pushDirection * knockbackDistance;
+                transform.position += pushDirection * knockbackDistance * 0.5f;
             }
             else
             {
@@ -61,7 +61,7 @@ public class MazeDetector : MonoBehaviour
                 // isn't perfect but is better than nothing.
                 Debug.LogWarning("Could not compute penetration. Using fallback.");
                 Vector3 fallbackDirection = (transform.position - other.transform.position).normalized;
-                transform.position += fallbackDirection * knockbackDistance;
+                transform.position += fallbackDirection * knockbackDistance * 0.5f;
             }
             
             // --- End of new logic ---

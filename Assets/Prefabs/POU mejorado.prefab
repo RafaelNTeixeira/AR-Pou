@@ -5688,6 +5688,9 @@ MonoBehaviour:
   nightDecayMultiplier: 2
   sickThreshold: 40
   sicknessRate: 0.3
+  minScale: 1
+  maxScale: 3
+  growthPerSecond: 0.001
   hungerSphere: {fileID: 2114976905984768952}
   energySphere: {fileID: 3740338551049116063}
   healthSphere: {fileID: 7004617795397492418}
