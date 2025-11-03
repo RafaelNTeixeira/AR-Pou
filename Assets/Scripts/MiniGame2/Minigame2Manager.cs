@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class Minigame2Manager : MonoBehaviour
 {
@@ -11,10 +12,9 @@ public class Minigame2Manager : MonoBehaviour
     public GameObject[] objectPrefabs;  // 0 = Pizza, 1 = Bed, 2 = Soap, 3 = Pill
     public float timeBetweenObjects = 1f;
     public float displayDuration = 1.5f; // How long each object stays visible
-    
+
     [Header("Sequence Display")]
-    public Transform sequenceDisplayPosition; // Where to show the sequence (above Pou?)
-    public float displayScale = 1.5f; // Size of objects when displayed
+    private Vector3 sequenceDisplayPosition;
     private List<int> sequence = new List<int>();
     private List<int> playerInput = new List<int>();
     private int currentRound = 1;
@@ -78,7 +78,7 @@ public class Minigame2Manager : MonoBehaviour
                 if (num == "GO!")
                 {
                     if (goSound != null)
-                        audioSource.PlayOneShot(goSound, 1f);
+                        audioSource.PlayOneShot(goSound, 0.5f);
 
                     // Start theme after "GO!" finishes
                     if (themeMusic != null)
@@ -165,24 +165,28 @@ public class Minigame2Manager : MonoBehaviour
 
     IEnumerator ShowSequenceToPlayer()
     {
-        Debug.Log("👀 Showing sequence...");
 
+        sequenceDisplayPosition = MarkerObjectSpawner.MinigameMarkerPosition + new Vector3(0, 0.18f, 0);
+        
+        // print sequence display position
+        Debug.Log($"📍 Sequence display position: {sequenceDisplayPosition}");
+        
         foreach (int objIndex in sequence)
         {
             GameObject displayObj = Instantiate(
                 objectPrefabs[objIndex],
-                sequenceDisplayPosition.position + new Vector3(0, 0.18f, 0),
-                sequenceDisplayPosition.rotation
+                sequenceDisplayPosition,
+                Quaternion.identity
             );
 
-            displayObj.transform.SetParent(sequenceDisplayPosition, worldPositionStays: true);
+            displayObj.transform.SetParent(null, worldPositionStays: true);
 
             yield return new WaitForSeconds(displayDuration);
             Destroy(displayObj);
             yield return new WaitForSeconds(timeBetweenObjects);
         }
 
-        Debug.Log("✅ Sequence shown! Now it's player's turn.");
+        Debug.Log("✅ Sequence display complete — player's turn!");
     }
 
     public void ObjectDelivered(int objectIndex)

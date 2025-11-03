@@ -29,6 +29,8 @@ public class MarkerObjectSpawner : MonoBehaviour
     [Header("Minigame 2 Instructions")]
     public GameObject instructionsPanelMinigame2;
     private bool hasShownMinigame2 = false;
+    public static Vector3 MinigameMarkerPosition;
+
 
     void Awake()
     {
@@ -121,6 +123,8 @@ public class MarkerObjectSpawner : MonoBehaviour
         {
             Debug.Log("Minigame2Marker detected - showing instructions panel.");
             ShowInstructionsMinigame2();
+
+            MinigameMarkerPosition = trackedImage.transform.position;
         }
 
         spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);
