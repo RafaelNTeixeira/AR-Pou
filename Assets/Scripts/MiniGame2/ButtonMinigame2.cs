@@ -7,16 +7,24 @@ public class ButtonMinigame2 : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         instructionsPanelMinigame2.SetActive(false);
-        
-        // Start the minigame by enabling the Minigame2Manager
+
         Minigame2Manager minigameManager = FindObjectOfType<Minigame2Manager>();
         if (minigameManager != null)
         {
-            minigameManager.enabled = true;
+            if (minigameManager.enabled)
+            {
+                Debug.Log("🔄 Minigame already active — restarting...");
+                minigameManager.ResetGame();
+            }
+            else
+            {
+                Debug.Log("▶️ Starting Minigame2...");
+                minigameManager.enabled = true;
+            }
         }
         else
         {
-            Debug.LogWarning("Minigame2Manager not found in the scene!");
+            Debug.LogWarning("⚠️ Minigame2Manager not found in the scene!");
         }
     }
 }

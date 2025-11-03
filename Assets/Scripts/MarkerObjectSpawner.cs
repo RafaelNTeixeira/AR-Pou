@@ -28,7 +28,7 @@ public class MarkerObjectSpawner : MonoBehaviour
 
     [Header("Minigame 2 Instructions")]
     public GameObject instructionsPanelMinigame2;
-    private bool hasShownMinigame2 = false;
+    public static bool hasShownMinigame2 = false;
     public static Vector3 MinigameMarkerPosition;
 
 

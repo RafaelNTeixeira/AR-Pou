@@ -31,7 +31,7 @@ public class Minigame2Manager : MonoBehaviour
     [SerializeField] private AudioClip countdownBeepSound;
     [SerializeField] private AudioClip goSound;
 
-    void Start()
+    void OnEnable()
     {
         IsMinigameActive = true;
         SetupMinigameMode(true);
@@ -78,7 +78,7 @@ public class Minigame2Manager : MonoBehaviour
                 if (num == "GO!")
                 {
                     if (goSound != null)
-                        audioSource.PlayOneShot(goSound, 0.5f);
+                        audioSource.PlayOneShot(goSound, 0.2f);
 
                     // Start theme after "GO!" finishes
                     if (themeMusic != null)
@@ -157,7 +157,7 @@ public class Minigame2Manager : MonoBehaviour
 
         yield return new WaitForSeconds(0.8f);
         yield return ShowSequenceToPlayer();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         playerTurn = true;
         Debug.Log("👉 Player's turn: Use markers to deliver objects in correct order!");
@@ -246,6 +246,8 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
 
+        MarkerObjectSpawner.hasShownMinigame2 = false;
+
         Debug.Log($"💀 Game Over! You reached Round {currentRound}");
         Debug.Log($"📊 Final Score: {currentRound - 1} rounds completed");
     }
@@ -262,7 +264,7 @@ public class Minigame2Manager : MonoBehaviour
         playerTurn = false;
         
         Debug.Log("🔄 Game restarted!");
-        StartCoroutine(StartRound());
+        StartCoroutine(CountdownBeforeStart());
     }
     
     string GetObjectName(int index)
