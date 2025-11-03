@@ -56,28 +56,35 @@ public class Minigame2Manager : MonoBehaviour
     {
         TMPro.TextMeshProUGUI countdownText = countdownTextObj?.GetComponent<TMPro.TextMeshProUGUI>();
 
-        // Enable countdown text
         if (countdownTextObj != null)
             countdownTextObj.SetActive(true);
+
+        // Colors for each step
+        Color[] colors = {
+            new Color(1f, 0.4f, 0.4f), // 3 = red
+            new Color(1f, 0.7f, 0.3f), // 2 = orange
+            new Color(1f, 1f, 0.3f),   // 1 = yellow
+            new Color(0.3f, 1f, 0.3f)  // GO! = green
+        };
 
         string[] numbers = { "3", "2", "1", "GO!" };
 
         for (int i = 0; i < numbers.Length; i++)
         {
             string num = numbers[i];
-            if (countdownText != null)
-                countdownText.text = num;
+            countdownText.text = num;
+            countdownText.color = colors[i];
+            countdownText.alpha = 1f; // fully visible
 
             // 🔊 Play countdown sounds
             if (audioSource != null)
             {
                 if (num == "GO!")
                 {
-                    // Play special "GO!" sound
                     if (goSound != null)
-                        audioSource.PlayOneShot(goSound, 1.0f);
+                        audioSource.PlayOneShot(goSound, 1f);
 
-                    // 🎶 Start theme song *after* the GO sound finishes
+                    // Start theme after "GO!" finishes
                     if (themeMusic != null)
                     {
                         float delay = goSound != null ? goSound.length : 0.5f;
@@ -86,23 +93,29 @@ public class Minigame2Manager : MonoBehaviour
                 }
                 else if (countdownBeepSound != null)
                 {
-                    // Regular beep for 3,2,1
-                    audioSource.PlayOneShot(countdownBeepSound, 1.0f);
+                    audioSource.PlayOneShot(countdownBeepSound, 1f);
                 }
             }
 
-            Debug.Log(num);
-            yield return new WaitForSeconds(1f);
+            // 💫 Fade out over 0.5s
+            float fadeDuration = 0.5f;
+            float elapsed = 0f;
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                countdownText.alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+                yield return null;
+            }
+
+            countdownText.alpha = 0f;
+            yield return new WaitForSeconds(0.5f); // small pause before next number
         }
 
-        if (countdownText != null)
-            countdownText.text = "";
+        // Clear text and hide
+        countdownText.text = "";
+        countdownTextObj.SetActive(false);
 
-        // disable countdown text
-        if (countdownTextObj != null)
-            countdownTextObj.SetActive(false);
-
-        // Start the first round after countdown
+        // Start the first round
         StartCoroutine(StartRound());
     }
     
