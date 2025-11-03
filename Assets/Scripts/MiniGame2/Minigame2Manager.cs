@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Minigame2Manager : MonoBehaviour
 {
+    [Header("UI References")]
+    public GameObject countdownTextObj;
+    
     [Header("Game Settings")]
     public GameObject[] objectPrefabs;  // 0 = Pizza, 1 = Bed, 2 = Soap, 3 = Pill
     public float timeBetweenObjects = 1f;
@@ -23,39 +26,113 @@ public class Minigame2Manager : MonoBehaviour
     private bool gameOver = false;
     public static bool IsMinigameActive { get; private set; } = false;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip correctSound;
+    [SerializeField] private AudioClip wrongSound;
+    [SerializeField] private AudioClip gameOverSound;
+    [SerializeField] private AudioClip themeMusic;
+    [SerializeField] private AudioClip countdownBeepSound;
+    [SerializeField] private AudioClip goSound;
+
     void Start()
     {
         IsMinigameActive = true;
         SetupMinigameMode(true);
-        StartCoroutine(StartRound());
+        StartCoroutine(CountdownBeforeStart());
     }
 
     void OnDisable()
     {
         IsMinigameActive = false;
         SetupMinigameMode(false);
+
+        // Stop theme when minigame ends
+        if (audioSource != null)
+            audioSource.Stop();
     }
 
-    // Toggle between normal mode (ItemTrigger) and minigame mode (DeliverableObject)
+    IEnumerator CountdownBeforeStart()
+    {
+        TMPro.TextMeshProUGUI countdownText = countdownTextObj?.GetComponent<TMPro.TextMeshProUGUI>();
+
+        // Enable countdown text
+        if (countdownTextObj != null)
+            countdownTextObj.SetActive(true);
+
+        string[] numbers = { "3", "2", "1", "GO!" };
+
+        for (int i = 0; i < numbers.Length; i++)
+        {
+            string num = numbers[i];
+            if (countdownText != null)
+                countdownText.text = num;
+
+            // 🔊 Play countdown sounds
+            if (audioSource != null)
+            {
+                if (num == "GO!")
+                {
+                    // Play special "GO!" sound
+                    if (goSound != null)
+                        audioSource.PlayOneShot(goSound, 1.0f);
+
+                    // 🎶 Start theme song *after* the GO sound finishes
+                    if (themeMusic != null)
+                    {
+                        float delay = goSound != null ? goSound.length : 0.5f;
+                        StartCoroutine(PlayThemeAfterDelay(delay));
+                    }
+                }
+                else if (countdownBeepSound != null)
+                {
+                    // Regular beep for 3,2,1
+                    audioSource.PlayOneShot(countdownBeepSound, 1.0f);
+                }
+            }
+
+            Debug.Log(num);
+            yield return new WaitForSeconds(1f);
+        }
+
+        if (countdownText != null)
+            countdownText.text = "";
+
+        // disable countdown text
+        if (countdownTextObj != null)
+            countdownTextObj.SetActive(false);
+
+        // Start the first round after countdown
+        StartCoroutine(StartRound());
+    }
+    
+    IEnumerator PlayThemeAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (audioSource != null && themeMusic != null)
+        {
+            audioSource.clip = themeMusic;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+    }
+
+
+
     void SetupMinigameMode(bool isMinigame)
     {
         foreach (GameObject prefab in objectPrefabs)
         {
             if (prefab == null) continue;
 
-            // Disable ItemTrigger for minigame, enable for normal mode
             ItemTrigger itemTrigger = prefab.GetComponent<ItemTrigger>();
             if (itemTrigger != null)
-            {
                 itemTrigger.enabled = !isMinigame;
-            }
 
-            // Enable DeliverableObject for minigame, disable for normal mode
             DeliverableObject deliverable = prefab.GetComponent<DeliverableObject>();
             if (deliverable != null)
-            {
                 deliverable.enabled = isMinigame;
-            }
         }
 
         Debug.Log($"🎮 Minigame mode: {(isMinigame ? "ENABLED" : "DISABLED")}");
@@ -66,45 +143,31 @@ public class Minigame2Manager : MonoBehaviour
         playerTurn = false;
         playerInput.Clear();
         
-        // Add new random object to sequence
         sequence.Add(Random.Range(0, objectPrefabs.Length));
-        
         Debug.Log($"🎯 Round {currentRound}: Sequence = {string.Join(", ", sequence)}");
-        
-        // Small delay before showing
+
         yield return new WaitForSeconds(0.8f);
-        
-        // SHOW SEQUENCE TO PLAYER
         yield return ShowSequenceToPlayer();
-        
-        // Delay before player can play
         yield return new WaitForSeconds(0.5f);
-        
+
         playerTurn = true;
         Debug.Log("👉 Player's turn: Use markers to deliver objects in correct order!");
     }
 
-    // Visually shows the sequence to the player
     IEnumerator ShowSequenceToPlayer()
     {
         Debug.Log("👀 Showing sequence...");
 
         foreach (int objIndex in sequence)
         {
-            // Instantiate object (unparented to avoid inheriting scale)
             GameObject displayObj = Instantiate(
                 objectPrefabs[objIndex],
-                sequenceDisplayPosition.position,
+                sequenceDisplayPosition.position + new Vector3(0, 0.18f, 0),
                 sequenceDisplayPosition.rotation
             );
 
-            // Set exact world scale
-            //displayObj.transform.localScale = Vector3.one * displayScale;
-
-            // Optional: Parent it after scaling (keep world transform)
             displayObj.transform.SetParent(sequenceDisplayPosition, worldPositionStays: true);
 
-            // Optional: Particles
             if (sequenceParticles != null)
             {
                 GameObject particles = Instantiate(
@@ -115,20 +178,14 @@ public class Minigame2Manager : MonoBehaviour
                 Destroy(particles, 2f);
             }
 
-            // Keep object visible
             yield return new WaitForSeconds(displayDuration);
-
-            // Destroy object
             Destroy(displayObj);
-
-            // Pause between objects
             yield return new WaitForSeconds(timeBetweenObjects);
         }
 
         Debug.Log("✅ Sequence shown! Now it's player's turn.");
     }
 
-    // Called when player delivers an object (via PouReceiver)
     public void ObjectDelivered(int objectIndex)
     {
         if (!playerTurn || gameOver) 
@@ -140,17 +197,24 @@ public class Minigame2Manager : MonoBehaviour
         playerInput.Add(objectIndex);
         int step = playerInput.Count - 1;
 
-        // Check if correct
         if (objectIndex != sequence[step])
         {
             Debug.Log($"❌ Wrong object! Expected {GetObjectName(sequence[step])}, got {GetObjectName(objectIndex)}");
+
+            // ❌ Play wrong sound
+            if (audioSource != null && wrongSound != null)
+                audioSource.PlayOneShot(wrongSound, 0.8f);
+
             StartCoroutine(GameOverSequence());
             return;
         }
 
         Debug.Log($"✅ Correct! {GetObjectName(objectIndex)} ({step + 1}/{sequence.Count})");
 
-        // If full sequence completed
+        // ✅ Play correct sound
+        if (audioSource != null && correctSound != null)
+            audioSource.PlayOneShot(correctSound, 4f);
+
         if (playerInput.Count == sequence.Count)
         {
             Debug.Log($"🎉 Full sequence complete! Advancing to Round {currentRound + 1}");
@@ -163,14 +227,27 @@ public class Minigame2Manager : MonoBehaviour
     {
         gameOver = true;
         playerTurn = false;
-        
+
+        // 🔊 Play the "wrong" (mistake) sound first
+        if (audioSource != null && wrongSound != null)
+            audioSource.PlayOneShot(wrongSound, 1.0f);
+
+        // ⏳ Wait 1 second before switching to Game Over
         yield return new WaitForSeconds(1f);
-        
+
+        // ⏹️ Stop the theme music if it's playing
+        if (audioSource != null && audioSource.clip == themeMusic)
+            audioSource.Stop();
+
+        // 🔊 Play the Game Over sound
+        if (audioSource != null && gameOverSound != null)
+            audioSource.PlayOneShot(gameOverSound, 1.0f);
+
         Debug.Log($"💀 Game Over! You reached Round {currentRound}");
         Debug.Log($"📊 Final Score: {currentRound - 1} rounds completed");
-        
-        // Here you can add game over effects (UI, animations, etc)
     }
+
+
 
     public void ResetGame()
     {
@@ -185,14 +262,12 @@ public class Minigame2Manager : MonoBehaviour
         StartCoroutine(StartRound());
     }
     
-    // Helper for debug
     string GetObjectName(int index)
     {
         string[] names = { "Pizza", "Bed", "Soap", "Pill" };
         return index >= 0 && index < names.Length ? names[index] : "Unknown";
     }
 
-    // Useful getters for external UI
     public int GetCurrentRound() => currentRound;
     public int GetSequenceLength() => sequence.Count;
     public bool IsPlayerTurn() => playerTurn;

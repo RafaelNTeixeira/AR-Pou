@@ -147,3 +147,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: BeanieMarker
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5049322396126319557
+      m_GuidHigh: 17256478656012486316
+    m_SerializedTextureGuid:
+      m_GuidLow: 2550345457160590550
+      m_GuidHigh: 17212434744445879417
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: Minigame2Marker
+    m_Texture: {fileID: 0}

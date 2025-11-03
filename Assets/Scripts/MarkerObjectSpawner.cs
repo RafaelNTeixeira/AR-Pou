@@ -19,6 +19,10 @@ public class MarkerObjectSpawner : MonoBehaviour
     private ARTrackedImageManager trackedImageManager;
     private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>();
 
+    [Header("Optional Effects")]
+    public GameObject instructionsPanelMinigame2;
+    private bool hasShownMinigame2 = false;
+
     void Awake()
     {
         trackedImageManager = FindFirstObjectByType<ARTrackedImageManager>();
@@ -32,6 +36,12 @@ public class MarkerObjectSpawner : MonoBehaviour
     void OnDisable()
     {
         trackedImageManager.trackedImagesChanged -= OnTrackablesChanged;
+    }
+
+    void ShowInstructionsMinigame2()
+    {
+        instructionsPanelMinigame2.SetActive(true);
+        hasShownMinigame2 = true;
     }
 
     // Called when tracked images are added, updated, or removed
@@ -89,6 +99,13 @@ public class MarkerObjectSpawner : MonoBehaviour
         else
         {
             spawned.SetActive(false);
+        }
+
+        // When Minigame2Marker is detected, show instructions once
+        if (prefabEntry.markerName == "Minigame2Marker" && !hasShownMinigame2)
+        {
+            Debug.Log("Minigame2Marker detected - showing instructions panel.");
+            ShowInstructionsMinigame2();
         }
     }
 }
