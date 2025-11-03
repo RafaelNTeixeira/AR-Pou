@@ -19,7 +19,7 @@ public class MarkerObjectSpawner : MonoBehaviour
     private ARTrackedImageManager trackedImageManager;
     private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>();
 
-    [Header("Optional Effects")]
+    [Header("Minigame 2 Instructions")]
     public GameObject instructionsPanelMinigame2;
     private bool hasShownMinigame2 = false;
 
