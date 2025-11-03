@@ -15,10 +15,6 @@ public class Minigame2Manager : MonoBehaviour
     [Header("Sequence Display")]
     public Transform sequenceDisplayPosition; // Where to show the sequence (above Pou?)
     public float displayScale = 1.5f; // Size of objects when displayed
-    
-    [Header("Optional Effects")]
-    public GameObject sequenceParticles; // Particles when showing object (optional)
-    
     private List<int> sequence = new List<int>();
     private List<int> playerInput = new List<int>();
     private int currentRound = 1;
@@ -180,16 +176,6 @@ public class Minigame2Manager : MonoBehaviour
             );
 
             displayObj.transform.SetParent(sequenceDisplayPosition, worldPositionStays: true);
-
-            if (sequenceParticles != null)
-            {
-                GameObject particles = Instantiate(
-                    sequenceParticles,
-                    displayObj.transform.position,
-                    Quaternion.identity
-                );
-                Destroy(particles, 2f);
-            }
 
             yield return new WaitForSeconds(displayDuration);
             Destroy(displayObj);
