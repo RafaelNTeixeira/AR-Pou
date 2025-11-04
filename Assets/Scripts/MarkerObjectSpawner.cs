@@ -42,10 +42,11 @@ public class MarkerObjectSpawner : MonoBehaviour
     {
         trackedImageManager.trackedImagesChanged -= OnTrackablesChanged;
     }
-    void ShowInstructionsMinigame2()
+
+    void ShowInstructionsMinigame2(bool show)
     {
-        instructionsPanelMinigame2.SetActive(true);
-        hasShownMinigame2 = true;
+        instructionsPanelMinigame2.SetActive(show);
+        hasShownMinigame2 = show;
     }
 
     // Called when tracked images are added, updated, or removed
@@ -69,6 +70,13 @@ public class MarkerObjectSpawner : MonoBehaviour
             if (spawnedPrefabs.TryGetValue(trackedImage.referenceImage.name, out var spawned))
             {
                 spawned.SetActive(false);
+            }
+            if (trackedImage.referenceImage.name == "Minigame2Marker")
+            {
+                ShowInstructionsMinigame2(false);
+                Minigame2Manager.IsMinigameActive = false;
+                hasShownMinigame2 = false;
+                Debug.Log("Minigame2Marker lost - hiding instructions panel.");
             }
         }
     }
@@ -102,9 +110,10 @@ public class MarkerObjectSpawner : MonoBehaviour
         if (prefabEntry.markerName == "Minigame2Marker" && !hasShownMinigame2)
         {
             Debug.Log("Minigame2Marker detected - showing instructions panel.");
-            ShowInstructionsMinigame2();
+            ShowInstructionsMinigame2(true);
 
             MinigameMarkerPosition = trackedImage.transform.position;
+            Minigame2Manager.IsMinigameActive = true;
         }
 
         spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);
