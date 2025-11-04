@@ -20,7 +20,10 @@ public class MarkerObjectSpawner : MonoBehaviour
     private ARTrackedImageManager trackedImageManager;
     private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>();
 
+    [Header("Minigame 1 Instructions")]
     private bool hasShownMinigame1 = false;
+
+     public GameObject instructionsPanel;
 
     [Header("Minigame 2 Instructions")]
     public GameObject instructionsPanelMinigame2;
@@ -105,6 +108,12 @@ public class MarkerObjectSpawner : MonoBehaviour
             trackedImage.transform.position + trackedImage.transform.rotation * prefabEntry.translationOffset,
             trackedImage.transform.rotation * Quaternion.Euler(prefabEntry.rotationOffset)
         );
+
+        if (prefabEntry.markerName == "MazeMarker" && !hasShownMinigame1)
+        {
+            instructionsPanel.SetActive(true);
+            hasShownMinigame1 = true;
+        }
 
         // When Minigame2Marker is detected, show instructions once
         if (prefabEntry.markerName == "Minigame2Marker" && !hasShownMinigame2)
