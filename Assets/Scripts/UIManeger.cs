@@ -11,11 +11,16 @@ public class UIManeger : MonoBehaviour
     public GameObject mainMenuCanvas;  // The Canvas containing the buttons
     public GameObject tutorialText;    // The GameObject with the tutorial text (can be Text or TMP_Text)
 
+     public GameObject mazeText;
+
     void Start()
     {
         // Make sure the tutorial text starts hidden
         if (tutorialText != null)
             tutorialText.SetActive(false);
+        
+        if (mazeText != null)
+            mazeText.SetActive(false);
     }
 
     // Called when the Play Game button is clicked
@@ -46,6 +51,16 @@ public class UIManeger : MonoBehaviour
         {
             tutorialText.SetActive(false);
             mainMenuCanvas.SetActive(true);
+        }
+
+    }
+    
+
+    public void PlayGameMaze()
+    {
+        if (mazeText != null)
+        {
+            mazeText.SetActive(false);
         }
             
     }
