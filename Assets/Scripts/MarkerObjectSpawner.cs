@@ -83,6 +83,13 @@ public class MarkerObjectSpawner : MonoBehaviour
             {
                 spawned.SetActive(false);
             }
+            if (trackedImage.referenceImage.name == "Minigame2Marker")
+            {
+                ShowInstructionsMinigame2(false);
+                Minigame2Manager.IsMinigameActive = false;
+                hasShownMinigame2 = false;
+                Debug.Log("Minigame2Marker lost - hiding instructions panel.");
+            }
         }
     }
 
@@ -119,19 +126,13 @@ public class MarkerObjectSpawner : MonoBehaviour
         }
 
         // When Minigame2Marker is detected, show instructions once
-        else if (prefabEntry.markerName == "Minigame2Marker" && !hasShownMinigame2)
+        if (prefabEntry.markerName == "Minigame2Marker" && !hasShownMinigame2)
         {
             Debug.Log("Minigame2Marker detected - showing instructions panel.");
             ShowInstructionsMinigame2(true);
 
             MinigameMarkerPosition = trackedImage.transform.position;
             Minigame2Manager.IsMinigameActive = true;
-        }
-
-        else
-        {
-            ShowInstructionsMinigame2(false);
-            Minigame2Manager.IsMinigameActive = false;
         }
 
         spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);

@@ -257,8 +257,6 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
 
-        MarkerObjectSpawner.hasShownMinigame2 = false;
-
         Debug.Log($"💀 Game Over! You reached Round {currentRound}");
         Debug.Log($"📊 Final Score: {currentRound - 1} rounds completed");
     }
@@ -279,6 +277,7 @@ public class Minigame2Manager : MonoBehaviour
         ClearGameState();
         SetupMinigameMode(false);
         gameOver = true;
+        MarkerObjectSpawner.hasShownMinigame2 = false;
         Debug.Log("🛑 Game stopped!");
     }
 
