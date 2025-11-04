@@ -112,8 +112,12 @@ public class MarkerObjectSpawner : MonoBehaviour
             Debug.Log("Minigame2Marker detected - showing instructions panel.");
             ShowInstructionsMinigame2(true);
 
-            MinigameMarkerPosition = trackedImage.transform.position;
             Minigame2Manager.IsMinigameActive = true;
+        }
+
+        if (prefabEntry.markerName == "Minigame2Marker")
+        {
+            MinigameMarkerPosition = trackedImage.transform.position;
         }
 
         spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);

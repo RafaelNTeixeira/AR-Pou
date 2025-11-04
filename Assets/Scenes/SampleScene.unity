@@ -2770,7 +2770,7 @@ MonoBehaviour:
   - markerName: PouMarker
     prefab: {fileID: 8296019595181625030, guid: 50f64ee7c87269148bfc8f3bb9e66e35, type: 3}
     rotationOffset: {x: 0, y: 180, z: 0}
-    translationOffset: {x: 0, y: 0.05, z: 0}
+    translationOffset: {x: 0, y: 0.03, z: 0}
   - markerName: FoodMarker
     prefab: {fileID: 2251635371974061847, guid: 013d5941c9011f74eb82775f52e14b3d, type: 3}
     rotationOffset: {x: 0, y: 180, z: 0}
