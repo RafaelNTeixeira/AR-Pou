@@ -206,6 +206,9 @@ public class Minigame2Manager : MonoBehaviour
             yield break;
         }
 
+        // Evita várias entregas rápidas (desativa turno durante a verificação)
+        playerTurn = false;
+
         playerInput.Add(objectIndex);
         int step = playerInput.Count - 1;
 
@@ -227,10 +230,16 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && correctSound != null)
             audioSource.PlayOneShot(correctSound, 4f);
 
-        // Wait 2 seconds before checking or moving on
+
         yield return new WaitForSeconds(2f);
 
-        if (playerInput.Count == sequence.Count)
+
+        if (playerInput.Count < sequence.Count)
+        {
+            playerTurn = true;
+            Debug.Log("⏱️ Ready for next object!");
+        }
+        else
         {
             Debug.Log($"🎉 Full sequence complete! Advancing to Round {currentRound + 1}");
             currentRound++;
@@ -260,7 +269,7 @@ public class Minigame2Manager : MonoBehaviour
             audioSource.PlayOneShot(gameOverSound, 1.0f);
 
         yield return new WaitForSeconds(4f);
-        
+
         StopGame();
 
         Debug.Log($"💀 Game Over! You reached Round {currentRound}");

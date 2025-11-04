@@ -38,36 +38,34 @@ public class DeliverableObject : MonoBehaviour
         
         hasBeenDelivered = true;
         
-        // Notify game manager
+        // Notify the game manager
         if (gameManager != null)
         {
-            gameManager.ObjectDelivered(objectIndex);
-            Debug.Log($"Delivered object {objectIndex} ({gameObject.name}) to Pou");
+            // ✅ Important: StartCoroutine to allow the 2-second delay inside ObjectDelivered
+            gameManager.StartCoroutine(gameManager.ObjectDelivered(objectIndex));
+            Debug.Log($"📦 Delivered object {objectIndex} ({gameObject.name}) to Pou");
         }
         else
         {
-            //Debug.LogWarning("Minigame2Manager not found!");
+            Debug.LogWarning("⚠️ Minigame2Manager not found!");
             return;
         }
 
-        // Hide the object
+        // Hide the object after delivery
         SetVisible(false);
     }
 
     private void SetVisible(bool visible)
     {
-        // Toggle renderers
-        if (renderers != null)
+        if (renderers == null) return;
+
+        foreach (var r in renderers)
         {
-            foreach (var r in renderers)
-            {
-                if (r != null)
-                    r.enabled = visible;
-            }
+            if (r != null)
+                r.enabled = visible;
         }
     }
 
-    // Reset object to fresh state
     public void ResetObject()
     {
         hasBeenDelivered = false;
