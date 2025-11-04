@@ -20,7 +20,7 @@ public class Minigame2Manager : MonoBehaviour
     private int currentRound = 1;
     private bool playerTurn = false;
     private bool gameOver = false;
-    public static bool IsMinigameActive { get; private set; } = false;
+    public static bool IsMinigameActive = false;
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -47,6 +47,15 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null)
             audioSource.Stop();
     }
+
+    void Update()
+    {
+        if (!IsMinigameActive)
+        {
+            StopGame();
+        }
+    }
+
 
     IEnumerator CountdownBeforeStart()
     {
@@ -242,6 +251,8 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && audioSource.clip == themeMusic)
             audioSource.Stop();
 
+        StopGame();
+
         // 🔊 Play the Game Over sound
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
@@ -253,19 +264,33 @@ public class Minigame2Manager : MonoBehaviour
     }
 
 
-
-    public void ResetGame()
+    // function to stop the game
+    private void ClearGameState()
     {
         StopAllCoroutines();
         sequence.Clear();
         playerInput.Clear();
         currentRound = 1;
-        gameOver = false;
         playerTurn = false;
-        
+    }
+
+    public void StopGame()
+    {
+        ClearGameState();
+        SetupMinigameMode(false);
+        gameOver = true;
+        Debug.Log("🛑 Game stopped!");
+    }
+
+    public void ResetGame()
+    {
+        ClearGameState();
+        SetupMinigameMode(true);
+        gameOver = false;
         Debug.Log("🔄 Game restarted!");
         StartCoroutine(CountdownBeforeStart());
     }
+
     
     string GetObjectName(int index)
     {
