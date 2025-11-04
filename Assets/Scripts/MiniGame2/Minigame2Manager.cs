@@ -198,12 +198,12 @@ public class Minigame2Manager : MonoBehaviour
         Debug.Log("✅ Sequence display complete — player's turn!");
     }
 
-    public void ObjectDelivered(int objectIndex)
+    public IEnumerator ObjectDelivered(int objectIndex)
     {
         if (!playerTurn || gameOver) 
         {
             Debug.Log("⚠️ Not your turn yet, or game is over!");
-            return;
+            yield break;
         }
 
         playerInput.Add(objectIndex);
@@ -218,7 +218,7 @@ public class Minigame2Manager : MonoBehaviour
                 audioSource.PlayOneShot(wrongSound, 0.8f);
 
             StartCoroutine(GameOverSequence());
-            return;
+            yield break;
         }
 
         Debug.Log($"✅ Correct! {GetObjectName(objectIndex)} ({step + 1}/{sequence.Count})");
@@ -227,6 +227,9 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && correctSound != null)
             audioSource.PlayOneShot(correctSound, 4f);
 
+        // Wait 2 seconds before checking or moving on
+        yield return new WaitForSeconds(2f);
+
         if (playerInput.Count == sequence.Count)
         {
             Debug.Log($"🎉 Full sequence complete! Advancing to Round {currentRound + 1}");
@@ -234,6 +237,7 @@ public class Minigame2Manager : MonoBehaviour
             StartCoroutine(StartRound());
         }
     }
+
 
     IEnumerator GameOverSequence()
     {
@@ -251,11 +255,13 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && audioSource.clip == themeMusic)
             audioSource.Stop();
 
-        StopGame();
-
         // 🔊 Play the Game Over sound
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
+
+        yield return new WaitForSeconds(4f);
+        
+        StopGame();
 
         Debug.Log($"💀 Game Over! You reached Round {currentRound}");
         Debug.Log($"📊 Final Score: {currentRound - 1} rounds completed");
