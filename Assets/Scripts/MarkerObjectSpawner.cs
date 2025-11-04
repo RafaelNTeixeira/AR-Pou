@@ -70,17 +70,22 @@ public class MarkerObjectSpawner : MonoBehaviour
             if (spawnedPrefabs.TryGetValue(trackedImage.referenceImage.name, out var spawned))
             {
                 spawned.SetActive(false);
-            }
-            if (trackedImage.referenceImage.name == "Minigame2Marker")
-            {
-                ShowInstructionsMinigame2(false);
-                Minigame2Manager.IsMinigameActive = false;
-                hasShownMinigame2 = false;
-                Debug.Log("Minigame2Marker lost - hiding instructions panel.");
+
+                //print spawned prefab lost
+                Debug.Log($"Lost prefab: {spawned.name}");
+
+                Debug.Log($"Marker {trackedImage.referenceImage.name} lost - deactivating associated prefab.");
+                if (trackedImage.referenceImage.name == "Minigame2Marker")
+                {
+                    ShowInstructionsMinigame2(false);
+                    Minigame2Manager.IsMinigameActive = false;
+                    hasShownMinigame2 = false;
+                    Debug.Log("Minigame2Marker lost - hiding instructions panel.");
+                }
             }
         }
     }
-
+    
     // Spawn or update the prefab corresponding to the tracked image
     void SpawnOrUpdatePrefab(ARTrackedImage trackedImage)
     {
