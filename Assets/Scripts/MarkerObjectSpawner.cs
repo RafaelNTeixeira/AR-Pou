@@ -125,6 +125,7 @@ public class MarkerObjectSpawner : MonoBehaviour
             ShowInstructionsMinigame2(true);
 
             MinigameMarkerPosition = trackedImage.transform.position;
+            Minigame2Manager.IsMinigameActive = true;
         }
 
         else
