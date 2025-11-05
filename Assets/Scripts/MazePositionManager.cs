@@ -7,6 +7,7 @@ public class MazePositionManager : MonoBehaviour
     [Header("Object References")]
     [Tooltip("Drag your 'POU maze' object here (the one with the PositionTracker script).")]
     public PositionTracker mazeTracker;
+    public Canvas mazeCanvas;
 
     public float displayTime = 10f;
 
@@ -18,6 +19,14 @@ public class MazePositionManager : MonoBehaviour
         if (mazeTracker == null)
         {
             Debug.LogError("The 'Maze Tracker' (POU maze) is not assigned!", this);
+        }
+    }
+
+    void Update()
+    {
+        if (mazeCanvas != null)
+        {
+            mazeCanvas.enabled = !goBack;
         }
     }
 
