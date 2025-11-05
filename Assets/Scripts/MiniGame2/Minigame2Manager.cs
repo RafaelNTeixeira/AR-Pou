@@ -177,7 +177,7 @@ public class Minigame2Manager : MonoBehaviour
         
         foreach (int objIndex in sequence)
         {
-            sequenceDisplayPosition = MarkerObjectSpawner.MinigameMarkerPosition + new Vector3(0, 0.18f, 0);
+            sequenceDisplayPosition = MarkerObjectSpawner.MinigameMarkerPosition + new Vector3(0, 0.12f, 0);
             GameObject displayObj = Instantiate(
                 objectPrefabs[objIndex],
                 sequenceDisplayPosition,
