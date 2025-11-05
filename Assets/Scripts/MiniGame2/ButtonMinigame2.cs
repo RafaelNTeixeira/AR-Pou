@@ -27,4 +27,10 @@ public class ButtonMinigame2 : MonoBehaviour
             Debug.LogWarning("⚠️ Minigame2Manager not found in the scene!");
         }
     }
+
+    public void OnDismissButtonPressed()
+    {
+        instructionsPanelMinigame2.SetActive(false);
+        MarkerObjectSpawner.hasShownMinigame2 = false;
+    }
 }
