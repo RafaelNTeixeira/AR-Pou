@@ -23,6 +23,8 @@ public class MarkerObjectSpawner : MonoBehaviour
     [Header("Minigame 1 Instructions")]
     private bool hasShownMinigame1 = false;
 
+    //private MazePositionManager mazePositionManager;
+
      public GameObject instructionsPanel;
 
     [Header("Minigame 2 Instructions")]
@@ -118,6 +120,12 @@ public class MarkerObjectSpawner : MonoBehaviour
         {
             instructionsPanel.SetActive(true);
             hasShownMinigame1 = true;
+        }
+
+        if (prefabEntry.markerName == "SunglassesMarker")
+        {
+            MazePositionManager mazePositionManager = FindObjectOfType<MazePositionManager>();
+            mazePositionManager.TriggerMazeMove();
         }
 
         // When Minigame2Marker is detected, show instructions once

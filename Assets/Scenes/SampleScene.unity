@@ -957,6 +957,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387470528047719, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1553500810}
+    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!1 &331264286 stripped
 GameObject:
@@ -2820,6 +2823,7 @@ MonoBehaviour:
     prefab: {fileID: 9028372820702548773, guid: bdbe4e9d28fdefa4e8c374976df5e175, type: 3}
     rotationOffset: {x: 0, y: 180, z: 0}
     translationOffset: {x: 0, y: 0.05, z: 0}
+  positionManager: {fileID: 0}
   instructionsPanel: {fileID: 1450950000}
   instructionsPanelMinigame2: {fileID: 1043225713}
 --- !u!4 &1062448169
