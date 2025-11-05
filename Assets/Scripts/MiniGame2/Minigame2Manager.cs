@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -267,6 +268,8 @@ public class Minigame2Manager : MonoBehaviour
         // 🔊 Play the Game Over sound
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
+
+        roundText.text = $"Max Rounds: {currentRound-1}";
 
         yield return new WaitForSeconds(4f);
 
