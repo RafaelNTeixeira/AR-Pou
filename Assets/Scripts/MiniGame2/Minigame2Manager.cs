@@ -269,7 +269,7 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
 
-        roundText.text = $"Max Rounds: {currentRound-1}";
+        roundText.text = $"Score: {currentRound-1}";
 
         yield return new WaitForSeconds(4f);
 
