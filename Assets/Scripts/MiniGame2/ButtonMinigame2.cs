@@ -4,6 +4,8 @@ public class ButtonMinigame2 : MonoBehaviour
 {
 
     public GameObject instructionsPanelMinigame2;
+
+    // Called when the Play button is pressed in the Minigame 2 instructions panel
     public void OnPlayButtonPressed()
     {
         instructionsPanelMinigame2.SetActive(false);
@@ -13,21 +15,22 @@ public class ButtonMinigame2 : MonoBehaviour
         {
             if (minigameManager.enabled)
             {
-                Debug.Log("🔄 Minigame already active — restarting...");
+                Debug.Log("Minigame already active — restarting...");
                 minigameManager.ResetGame();
             }
             else
             {
-                Debug.Log("▶️ Starting Minigame2...");
+                Debug.Log("Starting Minigame2...");
                 minigameManager.enabled = true;
             }
         }
         else
         {
-            Debug.LogWarning("⚠️ Minigame2Manager not found in the scene!");
+            Debug.LogWarning("Minigame2Manager not found in the scene!");
         }
     }
 
+    // Called when the Dismiss button is pressed in the Minigame 2 instructions panel
     public void OnDismissButtonPressed()
     {
         instructionsPanelMinigame2.SetActive(false);

@@ -60,6 +60,7 @@ public class Minigame2Manager : MonoBehaviour
     }
 
 
+    // Method to handle the countdown before starting the game
     IEnumerator CountdownBeforeStart()
     {
         TMPro.TextMeshProUGUI countdownText = countdownTextObj?.GetComponent<TMPro.TextMeshProUGUI>();
@@ -82,9 +83,8 @@ public class Minigame2Manager : MonoBehaviour
             string num = numbers[i];
             countdownText.text = num;
             countdownText.color = colors[i];
-            countdownText.alpha = 1f; // fully visible
+            countdownText.alpha = 1f;
 
-            // 🔊 Play countdown sounds
             if (audioSource != null)
             {
                 if (num == "GO!")
@@ -107,7 +107,7 @@ public class Minigame2Manager : MonoBehaviour
                 }
             }
 
-            // 💫 Fade out over 0.5s
+            // Fade out over 0.5s
             float fadeDuration = 0.5f;
             float elapsed = 0f;
             while (elapsed < fadeDuration)
@@ -116,7 +116,6 @@ public class Minigame2Manager : MonoBehaviour
                 countdownText.alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
                 yield return null;
             }
-
             countdownText.alpha = 0f;
             yield return new WaitForSeconds(0.5f); // small pause before next number
         }
@@ -128,7 +127,8 @@ public class Minigame2Manager : MonoBehaviour
         // Start the first round
         StartCoroutine(StartRound());
     }
-    
+
+    // Method to play theme music after a delay
     IEnumerator PlayThemeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -143,7 +143,7 @@ public class Minigame2Manager : MonoBehaviour
     }
 
 
-
+    // Method to enable/disable minigame mode components
     void SetupMinigameMode(bool isMinigame)
     {
         foreach (GameObject prefab in objectPrefabs)
@@ -158,29 +158,27 @@ public class Minigame2Manager : MonoBehaviour
             if (deliverable != null)
                 deliverable.enabled = isMinigame;
         }
-
-        Debug.Log($"🎮 Minigame mode: {(isMinigame ? "ENABLED" : "DISABLED")}");
     }
 
+    // Coroutine to start a new round
     IEnumerator StartRound()
     {
         playerTurn = false;
         playerInput.Clear();
-        
+
         sequence.Add(Random.Range(0, objectPrefabs.Length));
-        Debug.Log($"🎯 Round {currentRound}: Sequence = {string.Join(", ", sequence)}");
+        Debug.Log($"Round {currentRound}: Sequence = {string.Join(", ", sequence)}");
 
         yield return new WaitForSeconds(0.8f);
         yield return ShowSequenceToPlayer();
         yield return new WaitForSeconds(0.2f);
 
         playerTurn = true;
-        Debug.Log("👉 Player's turn: Use markers to deliver objects in correct order!");
     }
 
+    // Coroutine to show the sequence to the player
     IEnumerator ShowSequenceToPlayer()
     {
-        
         foreach (int objIndex in sequence)
         {
             sequenceDisplayPosition = MarkerObjectSpawner.MinigameMarkerPosition + new Vector3(0, 0.12f, 0);
@@ -196,29 +194,26 @@ public class Minigame2Manager : MonoBehaviour
             Destroy(displayObj);
             yield return new WaitForSeconds(timeBetweenObjects);
         }
-
-        Debug.Log("✅ Sequence display complete — player's turn!");
     }
 
+    // Method called when an object is delivered to Pou
     public IEnumerator ObjectDelivered(int objectIndex)
     {
-        if (!playerTurn || gameOver) 
+        if (!playerTurn || gameOver)
         {
-            Debug.Log("⚠️ Not your turn yet, or game is over!");
+            Debug.Log("Not your turn yet, or game is over!");
             yield break;
         }
 
-        // Evita várias entregas rápidas (desativa turno durante a verificação)
         playerTurn = false;
 
         playerInput.Add(objectIndex);
         int step = playerInput.Count - 1;
 
+        // Check if the delivered object matches the sequence
         if (objectIndex != sequence[step])
         {
-            Debug.Log($"❌ Wrong object! Expected {GetObjectName(sequence[step])}, got {GetObjectName(objectIndex)}");
-
-            // ❌ Play wrong sound
+            // Play wrong sound
             if (audioSource != null && wrongSound != null)
                 audioSource.PlayOneShot(wrongSound, 0.8f);
 
@@ -226,22 +221,18 @@ public class Minigame2Manager : MonoBehaviour
             yield break;
         }
 
-        Debug.Log($"✅ Correct! {GetObjectName(objectIndex)} ({step + 1}/{sequence.Count})");
-
-        // ✅ Play correct sound
+        // Play correct sound
         if (audioSource != null && correctSound != null)
             audioSource.PlayOneShot(correctSound, 4f);
 
-
+        // Check if the player has completed the sequence
         if (playerInput.Count < sequence.Count)
         {
             yield return new WaitForSeconds(2f);
             playerTurn = true;
-            Debug.Log("⏱️ Ready for next object!");
         }
         else
         {
-            Debug.Log($"🎉 Full sequence complete! Advancing to Round {currentRound + 1}");
             currentRound++;
             roundText.text = $"Round {currentRound}";
             StartCoroutine(StartRound());
@@ -254,18 +245,17 @@ public class Minigame2Manager : MonoBehaviour
         gameOver = true;
         playerTurn = false;
 
-        // 🔊 Play the "wrong" (mistake) sound first
+        // Play the wrong sound
         if (audioSource != null && wrongSound != null)
             audioSource.PlayOneShot(wrongSound, 1.0f);
 
-        // ⏳ Wait 1 second before switching to Game Over
         yield return new WaitForSeconds(1f);
 
-        // ⏹️ Stop the theme music if it's playing
+        // Stop the theme music if it's playing
         if (audioSource != null && audioSource.clip == themeMusic)
             audioSource.Stop();
 
-        // 🔊 Play the Game Over sound
+        // Play the Game Over sound
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
 
@@ -275,12 +265,11 @@ public class Minigame2Manager : MonoBehaviour
 
         StopGame();
 
-        Debug.Log($"💀 Game Over! You reached Round {currentRound}");
-        Debug.Log($"📊 Final Score: {currentRound - 1} rounds completed");
+        Debug.Log($"Final Score: {currentRound - 1} rounds completed");
     }
 
 
-    // function to stop the game
+    // Helper method to clear game state
     private void ClearGameState()
     {
         StopAllCoroutines();
@@ -290,6 +279,7 @@ public class Minigame2Manager : MonoBehaviour
         playerTurn = false;
     }
 
+    // Helper method to stop the game
     public void StopGame()
     {
         ClearGameState();
@@ -297,25 +287,27 @@ public class Minigame2Manager : MonoBehaviour
         roundTextObj.SetActive(false);
         gameOver = true;
         MarkerObjectSpawner.hasShownMinigame2 = false;
-        Debug.Log("🛑 Game stopped!");
+        Debug.Log("Game stopped!");
     }
 
+    // Method to reset the game
     public void ResetGame()
     {
         ClearGameState();
         SetupMinigameMode(true);
         gameOver = false;
-        Debug.Log("🔄 Game restarted!");
+        Debug.Log("Game restarted!");
         StartCoroutine(CountdownBeforeStart());
     }
 
-    
+    // Helper method to get object name by index
     string GetObjectName(int index)
     {
         string[] names = { "Pizza", "Bed", "Soap", "Pill" };
         return index >= 0 && index < names.Length ? names[index] : "Unknown";
     }
 
+    // Public getters for testing or UI purposes
     public int GetCurrentRound() => currentRound;
     public int GetSequenceLength() => sequence.Count;
     public bool IsPlayerTurn() => playerTurn;

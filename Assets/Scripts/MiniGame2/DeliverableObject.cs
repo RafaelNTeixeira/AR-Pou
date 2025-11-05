@@ -32,6 +32,7 @@ public class DeliverableObject : MonoBehaviour
         }
     }
 
+    // Method to handle delivery to Pou
     private void DeliverToPou()
     {
         if (hasBeenDelivered) return;
@@ -41,13 +42,12 @@ public class DeliverableObject : MonoBehaviour
         // Notify the game manager
         if (gameManager != null)
         {
-            // ✅ Important: StartCoroutine to allow the 2-second delay inside ObjectDelivered
             gameManager.StartCoroutine(gameManager.ObjectDelivered(objectIndex));
-            Debug.Log($"📦 Delivered object {objectIndex} ({gameObject.name}) to Pou");
+            Debug.Log($"Delivered object {objectIndex} ({gameObject.name}) to Pou");
         }
         else
         {
-            Debug.LogWarning("⚠️ Minigame2Manager not found!");
+            Debug.LogWarning("Minigame2Manager not found!");
             return;
         }
 
@@ -55,6 +55,7 @@ public class DeliverableObject : MonoBehaviour
         SetVisible(false);
     }
 
+    // Helper method to set visibility
     private void SetVisible(bool visible)
     {
         if (renderers == null) return;
@@ -66,6 +67,7 @@ public class DeliverableObject : MonoBehaviour
         }
     }
 
+    // Method to reset the object for future deliveries
     public void ResetObject()
     {
         hasBeenDelivered = false;
