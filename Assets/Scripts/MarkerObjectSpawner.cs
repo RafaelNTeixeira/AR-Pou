@@ -70,21 +70,21 @@ public class MarkerObjectSpawner : MonoBehaviour
         // When markers are lost
         foreach (var trackedImage in eventArgs.removed)
         {
-            if (spawnedPrefabs.TryGetValue(trackedImage.referenceImage.name, out var spawned))
+            Debug.Log($"Tracked image removed: {trackedImage.referenceImage.name}");
+            string markerName = trackedImage.referenceImage.name;
+
+            if (spawnedPrefabs.TryGetValue(markerName, out var spawned))
             {
                 spawned.SetActive(false);
+                Debug.Log($"Marker {markerName} lost - hiding spawned prefab.");
+            }
 
-                //print spawned prefab lost
-                Debug.Log($"Lost prefab: {spawned.name}");
-
-                Debug.Log($"Marker {trackedImage.referenceImage.name} lost - deactivating associated prefab.");
-                if (trackedImage.referenceImage.name == "Minigame2Marker")
-                {
-                    ShowInstructionsMinigame2(false);
-                    Minigame2Manager.IsMinigameActive = false;
-                    hasShownMinigame2 = false;
-                    Debug.Log("Minigame2Marker lost - hiding instructions panel.");
-                }
+            if (markerName == "Minigame2Marker")
+            {
+                Debug.Log("Minigame2Marker lost - hiding instructions panel.");
+                ShowInstructionsMinigame2(false);
+                Minigame2Manager.IsMinigameActive = false;
+                hasShownMinigame2 = false;  
             }
         }
     }

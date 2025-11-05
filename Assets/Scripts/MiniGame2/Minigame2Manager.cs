@@ -174,14 +174,10 @@ public class Minigame2Manager : MonoBehaviour
 
     IEnumerator ShowSequenceToPlayer()
     {
-
-        sequenceDisplayPosition = MarkerObjectSpawner.MinigameMarkerPosition + new Vector3(0, 0.18f, 0);
-        
-        // print sequence display position
-        Debug.Log($"📍 Sequence display position: {sequenceDisplayPosition}");
         
         foreach (int objIndex in sequence)
         {
+            sequenceDisplayPosition = MarkerObjectSpawner.MinigameMarkerPosition + new Vector3(0, 0.18f, 0);
             GameObject displayObj = Instantiate(
                 objectPrefabs[objIndex],
                 sequenceDisplayPosition,
