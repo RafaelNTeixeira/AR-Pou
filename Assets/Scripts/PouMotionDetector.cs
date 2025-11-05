@@ -40,6 +40,7 @@ public class PouMotionDetector : MonoBehaviour
     {
         Vector3 accel;
 
+        // Read from the best available sensor
         if (LinearAccelerationSensor.current != null)
         {
             accel = LinearAccelerationSensor.current.acceleration.ReadValue();
@@ -101,6 +102,7 @@ public class PouMotionDetector : MonoBehaviour
         }
     }
 
+    // Reset shake detection variables
     void ResetShake()
     {
         shakeCount = 0;

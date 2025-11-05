@@ -48,6 +48,7 @@ public class MarkerObjectSpawner : MonoBehaviour
         trackedImageManager.trackedImagesChanged -= OnTrackablesChanged;
     }
 
+    // Show or hide Minigame 2 instructions panel
     void ShowInstructionsMinigame2(bool show)
     {
         instructionsPanelMinigame2.SetActive(show);
@@ -116,12 +117,14 @@ public class MarkerObjectSpawner : MonoBehaviour
             trackedImage.transform.rotation * Quaternion.Euler(prefabEntry.rotationOffset)
         );
 
+        // When MazeMarker is detected, show instructions once
         if (prefabEntry.markerName == "MazeMarker" && !hasShownMinigame1)
         {
             instructionsPanel.SetActive(true);
             hasShownMinigame1 = true;
         }
 
+        // When UndoMarker is detected, trigger maze move
         if (prefabEntry.markerName == "UndoMarker")
         {
             MazePositionManager mazePositionManager = FindObjectOfType<MazePositionManager>();
@@ -137,6 +140,7 @@ public class MarkerObjectSpawner : MonoBehaviour
             Minigame2Manager.IsMinigameActive = true;
         }
 
+        // Store the position of the Minigame2Marker to update the sequence position
         if (prefabEntry.markerName == "Minigame2Marker")
         {
             MinigameMarkerPosition = trackedImage.transform.position;

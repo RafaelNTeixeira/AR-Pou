@@ -53,6 +53,7 @@ public class Minigame2Manager : MonoBehaviour
 
     void Update()
     {
+        // If Minigame is Minigame2 flag is set, stop the game
         if (!IsMinigameActive)
         {
             StopGame();
@@ -78,6 +79,8 @@ public class Minigame2Manager : MonoBehaviour
 
         string[] numbers = { "3", "2", "1", "GO!" };
 
+
+        // Show countdown text
         for (int i = 0; i < numbers.Length; i++)
         {
             string num = numbers[i];

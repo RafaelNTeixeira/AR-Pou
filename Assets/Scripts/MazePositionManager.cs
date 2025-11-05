@@ -45,14 +45,9 @@ public class MazePositionManager : MonoBehaviour
             goBack = true;
             StartCoroutine(WaitToGoBack());
         }
-        /*
-        else
-        {
-            Debug.LogError("MANAGER: Trigger received, but 'Maze Tracker' is null!", this);
-        }
-        */
     }
 
+    // Wait for a few seconds before allowing another move
     private IEnumerator WaitToGoBack()
     {
         yield return new WaitForSeconds(displayTime);

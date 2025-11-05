@@ -13,11 +13,13 @@ public class ButtonMinigame2 : MonoBehaviour
         Minigame2Manager minigameManager = FindObjectOfType<Minigame2Manager>();
         if (minigameManager != null)
         {
+            // If the minigame is already active, reset it
             if (minigameManager.enabled)
             {
                 Debug.Log("Minigame already active — restarting...");
                 minigameManager.ResetGame();
             }
+            // If the minigame is not active, start it
             else
             {
                 Debug.Log("Starting Minigame2...");

@@ -84,6 +84,7 @@ public class PouStatus : MonoBehaviour
     void Update()
     {
         float dt = Time.deltaTime;
+        // Update needs, growth, sphere colors, and mood
         UpdateNeeds(dt);
         UpdateGrowth(dt);
         UpdateSphereColors();
@@ -166,6 +167,7 @@ public class PouStatus : MonoBehaviour
     public void Clean(float amount) => cleanliness = Mathf.Clamp(cleanliness + amount, 0, 100);
     public void Heal(float amount) => health = Mathf.Clamp(health + amount, 0, 100);
 
+    // Update Pou's mood based on average needs
     void UpdateMood()
     {
         float average = (hunger + energy + health + cleanliness) / 4f;

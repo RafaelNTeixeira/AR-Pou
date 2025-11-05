@@ -45,6 +45,7 @@ public class UIManeger : MonoBehaviour
             
     }
 
+    // Called when the Back button in the tutorial is clicked
     public void GoBackTutorial()
     {
         if (tutorialText != null)
@@ -55,7 +56,7 @@ public class UIManeger : MonoBehaviour
 
     }
     
-
+    // Called when the Play Maze Game button is clicked
     public void PlayGameMaze()
     {
         if (mazeText != null)

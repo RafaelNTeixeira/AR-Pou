@@ -35,12 +35,14 @@ public class PouAnimator : MonoBehaviour
         if (pouBody == null) pouBody = transform;
     }
 
+    // Helper function to play sound effects    
     private void PlaySound(AudioClip clip)
     {
         if (audioSource != null && clip != null)
             audioSource.PlayOneShot(clip);
     }
 
+    // Animation Routines
     public void PlayFeedAnimation()
     {
         if (!isAnimating) StartCoroutine(FeedRoutine());
@@ -48,6 +50,7 @@ public class PouAnimator : MonoBehaviour
         ShowEmoji("<sprite name=feed>");
     }
 
+    // Sleep Animation
     public void PlaySleepAnimation()
     {
         if (!isAnimating) StartCoroutine(SleepRoutine());
@@ -55,6 +58,7 @@ public class PouAnimator : MonoBehaviour
         ShowEmoji("<sprite name=sleep>");
     }
 
+    // Clean Animation
     public void PlayCleanAnimation()
     {
         if (!isAnimating) StartCoroutine(CleanRoutine());
@@ -62,6 +66,7 @@ public class PouAnimator : MonoBehaviour
         ShowEmoji("<sprite name=clean>");
     }
 
+    // Medicine Animation
     public void PlayMedicineAnimation()
     {
         if (!isAnimating) StartCoroutine(MedicineRoutine());
@@ -69,6 +74,7 @@ public class PouAnimator : MonoBehaviour
         ShowEmoji("<sprite name=medicine>");
     }
 
+    // Dizzy Animation
     public void PlayDizzyAnimation()
     {
         if (!isAnimating)
@@ -104,10 +110,11 @@ public class PouAnimator : MonoBehaviour
         Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
     }
 
+    // Feed Animation
     private IEnumerator FeedRoutine()
     {
         isAnimating = true;
-        Vector3 currentInitialScale = pouBody.localScale; 
+        Vector3 currentInitialScale = pouBody.localScale;
         Vector3 chewScale = new Vector3(
             currentInitialScale.x * 1.1f,
             currentInitialScale.y * 0.9f,
@@ -124,6 +131,7 @@ public class PouAnimator : MonoBehaviour
         isAnimating = false;
     }
 
+    // Sleep Animation
     private IEnumerator SleepRoutine()
     {
         isAnimating = true;
@@ -142,6 +150,7 @@ public class PouAnimator : MonoBehaviour
         isAnimating = false;
     }
 
+    // Medicine Animation
     private IEnumerator MedicineRoutine()
     {
         isAnimating = true;
@@ -157,6 +166,7 @@ public class PouAnimator : MonoBehaviour
         isAnimating = false;
     }
 
+    // Clean Animation
     private IEnumerator CleanRoutine()
     {
         isAnimating = true;
@@ -175,6 +185,7 @@ public class PouAnimator : MonoBehaviour
         isAnimating = false;
     }
     
+    // Dizzy Animation
     private IEnumerator DizzyRoutine()
     {
         isAnimating = true;

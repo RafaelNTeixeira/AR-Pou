@@ -145,6 +145,7 @@ public class WeatherManager : MonoBehaviour
         }
     }
 
+    // Coroutine to get weather data from Visual Crossing API
     IEnumerator GetWeather()
     {
         if (useDebugMode) yield break;

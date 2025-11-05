@@ -18,6 +18,7 @@ public class EmojiPopup : MonoBehaviour
         startPos = transform.position - new Vector3(0f, riseHeight, 0f); 
     }
 
+    // Initialize the popup with the desired text
     public void Setup(string text)
     {
         textMesh.text = text;

@@ -42,10 +42,11 @@ public class ItemTrigger : MonoBehaviour
         }
     }
 
+    // Handle item usage by Pou
     private void UsedByPou(GameObject pou)
     {
         if (hasBeenUsed) return;
-        
+
         hasBeenUsed = true;
 
         PouStatus pouStatus = pou.GetComponent<PouStatus>();
@@ -62,19 +63,19 @@ public class ItemTrigger : MonoBehaviour
                     pouAnimator.PlayFeedAnimation();
                     Debug.Log($"Pou ate {gameObject.name}, hunger increased by {itemValue}");
                     break;
-                    
+
                 case ItemType.Health:
                     pouStatus.Heal(itemValue);
                     pouAnimator.PlayMedicineAnimation();
                     Debug.Log($"Pou used {gameObject.name}, health increased by {itemValue}");
                     break;
-                    
+
                 case ItemType.Shower:
                     pouStatus.Clean(itemValue);
                     pouAnimator.PlayCleanAnimation();
                     Debug.Log($"Pou showered with {gameObject.name}, cleanliness increased by {itemValue}");
                     break;
-                    
+
                 case ItemType.Sleep:
                     pouStatus.Sleep(itemValue);
                     pouAnimator.PlaySleepAnimation();
@@ -119,7 +120,7 @@ public class ItemTrigger : MonoBehaviour
 
         // Hide the item immediately
         SetVisible(false);
-        
+
         // Reset for next use
         hasBeenUsed = false;
     }

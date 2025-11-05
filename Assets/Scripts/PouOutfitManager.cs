@@ -102,14 +102,16 @@ public class PouOutfitManager : MonoBehaviour
         }
     }
 
+    // Shows the speech bubble with the given message
     private void ShowSpeechBubble(string message)
     {
         if (pouSpeechBubbleText == null) return;
-        
+
         pouSpeechBubbleText.text = message;
         pouSpeechBubbleText.gameObject.SetActive(true);
     }
 
+    // Hides the speech bubble
     private void HideSpeechBubble()
     {
         if (pouSpeechBubbleText == null) return;
