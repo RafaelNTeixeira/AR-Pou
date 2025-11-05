@@ -7,11 +7,13 @@ public class Minigame2Manager : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject countdownTextObj;
+    public GameObject roundTextObj;
+    private TMPro.TextMeshProUGUI roundText => roundTextObj.GetComponent<TMPro.TextMeshProUGUI>();
     
     [Header("Game Settings")]
     public GameObject[] objectPrefabs;  // 0 = Pizza, 1 = Bed, 2 = Soap, 3 = Pill
     public float timeBetweenObjects = 1f;
-    public float displayDuration = 1.5f; // How long each object stays visible
+    public float displayDuration = 1f; // How long each object stays visible
 
     [Header("Sequence Display")]
     private Vector3 sequenceDisplayPosition;
@@ -93,6 +95,8 @@ public class Minigame2Manager : MonoBehaviour
                     if (themeMusic != null)
                     {
                         float delay = goSound != null ? goSound.length : 0.5f;
+                        roundTextObj.SetActive(true);
+                        roundText.text = $"Round {currentRound}";
                         StartCoroutine(PlayThemeAfterDelay(delay));
                     }
                 }
@@ -132,6 +136,7 @@ public class Minigame2Manager : MonoBehaviour
         {
             audioSource.clip = themeMusic;
             audioSource.loop = true;
+            audioSource.volume = 0.05f;
             audioSource.Play();
         }
     }
@@ -227,11 +232,9 @@ public class Minigame2Manager : MonoBehaviour
             audioSource.PlayOneShot(correctSound, 4f);
 
 
-        yield return new WaitForSeconds(2f);
-
-
         if (playerInput.Count < sequence.Count)
         {
+            yield return new WaitForSeconds(2f);
             playerTurn = true;
             Debug.Log("⏱️ Ready for next object!");
         }
@@ -239,6 +242,7 @@ public class Minigame2Manager : MonoBehaviour
         {
             Debug.Log($"🎉 Full sequence complete! Advancing to Round {currentRound + 1}");
             currentRound++;
+            roundText.text = $"Round {currentRound}";
             StartCoroutine(StartRound());
         }
     }
@@ -287,6 +291,7 @@ public class Minigame2Manager : MonoBehaviour
     {
         ClearGameState();
         SetupMinigameMode(false);
+        roundTextObj.SetActive(false);
         gameOver = true;
         MarkerObjectSpawner.hasShownMinigame2 = false;
         Debug.Log("🛑 Game stopped!");
