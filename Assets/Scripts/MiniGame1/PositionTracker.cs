@@ -4,55 +4,26 @@ using UnityEngine;
 
 public class PositionTracker : MonoBehaviour
 {
-    [Tooltip("The interval in seconds to check and save the position.")]
-    public float saveInterval = 2.0f;
-
-    [Tooltip("How close the object needs to be to the last position to be considered 'the same'.")]
-    public float positionTolerance = 0.01f; // 1cm tolerance
-
     // This List will store our entire position history
     private List<Vector3> savedPositions = new List<Vector3>();
 
     // This index tracks which position we should move to next
     private int currentPositionIndex = -1;
 
-    void Start()
-    {
-        // Start the repeating process of saving the position
-        StartCoroutine(SavePositionRoutine());
-    }
-
     /// <summary>
-    /// A Coroutine that runs every 'saveInterval' seconds.
+    /// This is a built-in Unity function that is called when this object's
+    /// collider enters another collider marked as 'Is Trigger'.
     /// </summary>
-    private IEnumerator SavePositionRoutine()
+    /// <param name="other">The collider this object entered.</param>
+    private void OnTriggerEnter(Collider other)
     {
-        // This loop will run forever as long as the object is active
-        while (true)
+        // Check if the collider we entered has the "check" tag
+        if (other.CompareTag("Check"))
         {
-            // Wait for the specified interval
-            yield return new WaitForSeconds(saveInterval);
-
-            Vector3 currentPosition = transform.position;
-
-            // Check if we have any positions saved yet
-            if (savedPositions.Count == 0)
-            {
-                // If this is the first one, just save it
-                SaveNewPosition(currentPosition);
-            }
-            else
-            {
-                // Compare to the *last* saved position
-                Vector3 lastSavedPosition = savedPositions[savedPositions.Count - 1];
-
-                // Only save if the distance is greater than our tolerance
-                // (We don't use == for positions due to floating-point inaccuracy)
-                if (Vector3.Distance(currentPosition, lastSavedPosition) > positionTolerance)
-                {
-                    SaveNewPosition(currentPosition);
-                }
-            }
+            // We entered a checkpoint.
+            // Save our current position. This function is only called
+            // ONCE per entry, achieving your goal.
+            SaveNewPosition(transform.position);
         }
     }
 
@@ -92,7 +63,6 @@ public class PositionTracker : MonoBehaviour
         Vector3 targetPosition = savedPositions[currentPositionIndex];
 
         // Move the object. This is an instant move.
-        // See the "Improvements" section for a smooth move.
         transform.position = targetPosition;
         
         Debug.Log($"Moving to position index {currentPositionIndex}: {targetPosition}");

@@ -157,3 +157,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: Minigame2Marker
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4627727105529394079
+      m_GuidHigh: 9373346945534057600
+    m_SerializedTextureGuid:
+      m_GuidLow: 10841558971594467632
+      m_GuidHigh: 14894329235971283625
+    m_Size: {x: 0.1, y: 0.1}
+    m_SpecifySize: 1
+    m_Name: UndoMarker
+    m_Texture: {fileID: 0}

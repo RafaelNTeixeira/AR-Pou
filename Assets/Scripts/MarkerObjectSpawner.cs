@@ -122,7 +122,7 @@ public class MarkerObjectSpawner : MonoBehaviour
             hasShownMinigame1 = true;
         }
 
-        if (prefabEntry.markerName == "SunglassesMarker")
+        if (prefabEntry.markerName == "UndoMarker")
         {
             MazePositionManager mazePositionManager = FindObjectOfType<MazePositionManager>();
             mazePositionManager.TriggerMazeMove();

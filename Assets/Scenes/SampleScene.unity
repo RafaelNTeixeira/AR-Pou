@@ -3109,6 +3109,10 @@ MonoBehaviour:
     prefab: {fileID: 9028372820702548773, guid: bdbe4e9d28fdefa4e8c374976df5e175, type: 3}
     rotationOffset: {x: 0, y: 180, z: 0}
     translationOffset: {x: 0, y: 0.03, z: 0}
+  - markerName: UndoMarker
+    prefab: {fileID: 2635023391027596652, guid: 78c2432375b11b743aa7058477b3bf3d, type: 3}
+    rotationOffset: {x: -90, y: 0, z: 0}
+    translationOffset: {x: 0, y: 0, z: 0}
   instructionsPanel: {fileID: 1450950000}
   instructionsPanelMinigame2: {fileID: 1043225713}
 --- !u!4 &1062448169
