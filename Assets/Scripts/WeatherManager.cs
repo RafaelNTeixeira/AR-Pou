@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-// Classes to parse the JSON response from Visual Crossing Weather API
+// Class to hold current conditions data
 [System.Serializable]
 public class CurrentConditions
 {

@@ -8,18 +8,33 @@ public class PositionTracker : MonoBehaviour
     // This List will store our entire position history
     private List<Vector3> savedPositions = new List<Vector3>();
 
-    // This index tracks which position we should move to next
-    private int currentPositionIndex = -1;
+    // Tolerance to prevent saving the same spot multiple times
+    public float positionTolerance = 0.001f;
 
-    // This is a built-in Unity function that is called when this object's collider enters another collider marked as 'Is Trigger'.
+    // When the object enters a trigger collider
     private void OnTriggerEnter(Collider other)
     {
         // Check if the collider we entered has the "Check" tag
         if (other.CompareTag("Check"))
         {
-            // We entered a checkpoint. Save our current position. 
-            // This function is only called ONCE per entry, achieving your goal.
-            SaveNewPosition(transform.position);
+            Vector3 currentPosition = transform.position;
+
+            // If this is the first checkpoint, just save it.
+            if (savedPositions.Count == 0)
+            {
+                SaveNewPosition(currentPosition);
+            }
+            // Otherwise, check distance from the last saved one
+            else
+            {
+                Vector3 lastSavedPosition = savedPositions[savedPositions.Count - 1];
+                
+                // Only save if it's a new position
+                if (Vector3.Distance(currentPosition, lastSavedPosition) > positionTolerance)
+                {
+                    SaveNewPosition(currentPosition);
+                }
+            }
         }
     }
 
@@ -28,43 +43,28 @@ public class PositionTracker : MonoBehaviour
     {
         savedPositions.Add(position);
 
-        // Every time we save a new position, we reset the index to point to this new, last-saved item.
-        currentPositionIndex = savedPositions.Count - 1;
-
         Debug.Log($"New position saved: {position}. Total count: {savedPositions.Count}");
     }
 
     // Method to move the object to the previous saved position
     public void MoveToPreviousSavedPosition()
     {
-        // Do nothing if no positions have been saved
-        if (savedPositions.Count == 0)
+        // We can't go back if there is only 1 (or 0) position saved.
+        if (savedPositions.Count <= 1)
         {
-            Debug.LogWarning("Object2 triggered a move, but no positions are saved yet.");
+            Debug.LogWarning("Not enough positions to go back to.");
             return;
         }
 
-        // Check if the index is valid (it might be -1 if we just started)
-        if (currentPositionIndex < 0 || currentPositionIndex >= savedPositions.Count)
-        {
-            currentPositionIndex = savedPositions.Count - 1;
-        }
+        // Remove the very last position from the list.
+        savedPositions.RemoveAt(savedPositions.Count - 1);
 
-        // Get the target position from our list
-        Vector3 targetPosition = savedPositions[currentPositionIndex];
+        // Get the new last position from the list (which is our target)
+        Vector3 targetPosition = savedPositions[savedPositions.Count - 1];
 
-        // Move the object
+        // Move the object to that position
         transform.position = targetPosition;
 
-        Debug.Log($"Moving to position index {currentPositionIndex}: {targetPosition}");
-
-        // Decrement the index for the next time this is called
-        currentPositionIndex--;
-
-        // If the index has gone below 0, wrap it back around to the end of the list
-        if (currentPositionIndex < 0)
-        {
-            currentPositionIndex = savedPositions.Count - 1;
-        }
+        Debug.Log($"Moved to {targetPosition}. Checkpoints remaining: {savedPositions.Count}");
     }
 }
