@@ -5,7 +5,6 @@ using System.Collections;
 public class MazePositionManager : MonoBehaviour
 {
     [Header("Object References")]
-    [Tooltip("Drag your 'POU maze' object here (the one with the PositionTracker script).")]
     public PositionTracker mazeTracker;
     public Canvas mazeCanvas;
 

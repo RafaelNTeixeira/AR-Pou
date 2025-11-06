@@ -5,7 +5,9 @@ using UnityEngine;
 // Class to track and manage saved positions for an object
 public class PositionTracker : MonoBehaviour
 {
-    // This List will store our entire position history
+    public Transform mazeAnchor;
+
+    // This List will store our entire local position history
     private List<Vector3> savedPositions = new List<Vector3>();
 
     // Tolerance to prevent saving the same spot multiple times
@@ -17,38 +19,50 @@ public class PositionTracker : MonoBehaviour
         // Check if the collider we entered has the "Check" tag
         if (other.CompareTag("Check"))
         {
-            Vector3 currentPosition = transform.position;
+            if (mazeAnchor == null)
+            {
+                Debug.LogError("Maze Anchor is not set on the PositionTracker! Cannot save relative position.", this.gameObject);
+                return;
+            }
+
+            Vector3 currentLocalPosition = mazeAnchor.InverseTransformPoint(transform.position);
 
             // If this is the first checkpoint, just save it.
             if (savedPositions.Count == 0)
             {
-                SaveNewPosition(currentPosition);
+                SaveNewPosition(currentLocalPosition);
             }
             // Otherwise, check distance from the last saved one
             else
             {
                 Vector3 lastSavedPosition = savedPositions[savedPositions.Count - 1];
                 
-                // Only save if it's a new position
-                if (Vector3.Distance(currentPosition, lastSavedPosition) > positionTolerance)
+                // This distance check is still valid as we are comparing two local positions
+                if (Vector3.Distance(currentLocalPosition, lastSavedPosition) > positionTolerance)
                 {
-                    SaveNewPosition(currentPosition);
+                    SaveNewPosition(currentLocalPosition);
                 }
             }
         }
     }
 
-    // Adds a new position to our history and logs it.
-    private void SaveNewPosition(Vector3 position)
+    // Adds a new local position to our history and logs it.
+    private void SaveNewPosition(Vector3 localPosition)
     {
-        savedPositions.Add(position);
+        savedPositions.Add(localPosition);
 
-        Debug.Log($"New position saved: {position}. Total count: {savedPositions.Count}");
+        Debug.Log($"New *local* position saved: {localPosition}. Total count: {savedPositions.Count}");
     }
 
     // Method to move the object to the previous saved position
     public void MoveToPreviousSavedPosition()
     {
+        if (mazeAnchor == null)
+        {
+            Debug.LogError("Maze Anchor is not set on the PositionTracker! Cannot restore relative position.", this.gameObject);
+            return;
+        }
+
         // We can't go back if there is only 1 (or 0) position saved.
         if (savedPositions.Count <= 1)
         {
@@ -59,12 +73,15 @@ public class PositionTracker : MonoBehaviour
         // Remove the very last position from the list.
         savedPositions.RemoveAt(savedPositions.Count - 1);
 
-        // Get the new last position from the list (which is our target)
-        Vector3 targetPosition = savedPositions[savedPositions.Count - 1];
+        // Get the new last local position from the list
+        Vector3 targetLocalPosition = savedPositions[savedPositions.Count - 1];
 
-        // Move the object to that position
-        transform.position = targetPosition;
+        // Calculate the current world position based on the maze's current location
+        Vector3 targetWorldPosition = mazeAnchor.TransformPoint(targetLocalPosition);
 
-        Debug.Log($"Moved to {targetPosition}. Checkpoints remaining: {savedPositions.Count}");
+        // Move the object to that new world position
+        transform.position = targetWorldPosition;
+
+        Debug.Log($"Moved to {targetWorldPosition} (local: {targetLocalPosition}). Checkpoints remaining: {savedPositions.Count}");
     }
 }

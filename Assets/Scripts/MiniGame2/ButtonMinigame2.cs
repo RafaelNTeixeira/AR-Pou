@@ -4,6 +4,7 @@ using UnityEngine;
 public class ButtonMinigame2 : MonoBehaviour
 {
     public GameObject instructionsPanelMinigame2;
+    public GameObject[] objectPrefabs;
 
     // Called when the Play button is pressed in the Minigame 2 instructions panel
     public void OnPlayButtonPressed()
@@ -11,6 +12,7 @@ public class ButtonMinigame2 : MonoBehaviour
         instructionsPanelMinigame2.SetActive(false);
 
         Minigame2Manager minigameManager = FindObjectOfType<Minigame2Manager>();
+        Minigame2Manager.IsMinigameActive = true;
         if (minigameManager != null)
         {
             // If the minigame is already active, reset it
@@ -37,5 +39,8 @@ public class ButtonMinigame2 : MonoBehaviour
     {
         instructionsPanelMinigame2.SetActive(false);
         MarkerObjectSpawner.hasShownMinigame2 = false;
+        Minigame2Manager minigameManager = FindObjectOfType<Minigame2Manager>();
+        minigameManager.SetupMinigameMode(false);
+        Minigame2Manager.IsMinigameActive = false;
     }
 }

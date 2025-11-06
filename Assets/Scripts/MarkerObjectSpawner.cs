@@ -24,7 +24,7 @@ public class MarkerObjectSpawner : MonoBehaviour
     [Header("Minigame 1 Instructions")]
     private bool hasShownMinigame1 = false;
 
-    //private MazePositionManager mazePositionManager;
+    // private MazePositionManager mazePositionManager;
 
     public GameObject instructionsPanel;
 
@@ -37,6 +37,7 @@ public class MarkerObjectSpawner : MonoBehaviour
     void Awake()
     {
         trackedImageManager = FindFirstObjectByType<ARTrackedImageManager>();
+        // mazePositionManager = FindFirstObjectByType<MazePositionManager>();
     }
 
     void OnEnable()
@@ -102,8 +103,11 @@ public class MarkerObjectSpawner : MonoBehaviour
         var prefabEntry = System.Array.Find(markerPrefabs, p => p.markerName == markerName);
         if (prefabEntry.prefab == null) return;
 
-        GameObject spawned;
-        if (!spawnedPrefabs.TryGetValue(markerName, out spawned))
+        spawnedPrefabs.TryGetValue(markerName, out GameObject spawned);
+
+        bool wasActive = (spawned != null) && spawned.activeSelf;
+
+        if (spawned == null)
         {
             spawned = Instantiate(prefabEntry.prefab, trackedImage.transform);
             spawnedPrefabs.Add(markerName, spawned);
@@ -111,6 +115,8 @@ public class MarkerObjectSpawner : MonoBehaviour
             spawned.transform.localPosition = prefabEntry.translationOffset;
             spawned.transform.localRotation = Quaternion.Euler(prefabEntry.rotationOffset);
         }
+
+        bool isActive = trackedImage.trackingState == TrackingState.Tracking;
 
         // Update position + visibility
         spawned.transform.SetPositionAndRotation(
@@ -128,17 +134,31 @@ public class MarkerObjectSpawner : MonoBehaviour
         // When UndoMarker is detected, trigger maze move
         if (prefabEntry.markerName == "UndoMarker")
         {
-            MazePositionManager mazePositionManager = FindObjectOfType<MazePositionManager>();
-            mazePositionManager.TriggerMazeMove();
+           // Only trigger if the marker just became active
+           if (isActive && !wasActive)
+           {
+               MazePositionManager manager = FindObjectOfType<MazePositionManager>();
+               
+               if (manager != null)
+               {
+                   Debug.Log("UndoMarker just detected! Telling maze to move.");
+                   manager.TriggerMazeMove();
+               }
+               else
+               {
+                   Debug.LogWarning("UndoMarker detected, but couldn't find MazePositionManager in the scene. Is the MazeMarker prefab active?");
+               }
+           }
         }
 
         // When Minigame2Marker is detected, show instructions once
         if (prefabEntry.markerName == "Minigame2Marker" && !hasShownMinigame2)
         {
-            Debug.Log("Minigame2Marker detected - showing instructions panel.");
-            ShowInstructionsMinigame2(true);
-
-            Minigame2Manager.IsMinigameActive = true;
+            if (isActive && !wasActive)
+            {
+                Debug.Log("Minigame2Marker detected - showing instructions panel.");
+                ShowInstructionsMinigame2(true);
+            }
         }
 
         // Store the position of the Minigame2Marker to update the sequence position
@@ -147,6 +167,6 @@ public class MarkerObjectSpawner : MonoBehaviour
             MinigameMarkerPosition = trackedImage.transform.position;
         }
 
-        spawned.SetActive(trackedImage.trackingState == TrackingState.Tracking);
+        spawned.SetActive(isActive);
     }
 }

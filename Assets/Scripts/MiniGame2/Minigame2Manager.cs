@@ -148,7 +148,7 @@ public class Minigame2Manager : MonoBehaviour
 
 
     // Method to enable/disable minigame mode components
-    void SetupMinigameMode(bool isMinigame)
+    public void SetupMinigameMode(bool isMinigame)
     {
         foreach (GameObject prefab in objectPrefabs)
         {
@@ -290,6 +290,7 @@ public class Minigame2Manager : MonoBehaviour
         roundTextObj.SetActive(false);
         gameOver = true;
         MarkerObjectSpawner.hasShownMinigame2 = false;
+        IsMinigameActive = false;
         Debug.Log("Game stopped!");
     }
 
