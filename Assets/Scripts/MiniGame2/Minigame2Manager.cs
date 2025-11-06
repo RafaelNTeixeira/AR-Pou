@@ -10,6 +10,7 @@ public class Minigame2Manager : MonoBehaviour
     [Header("UI References")]
     public GameObject countdownTextObj;
     public GameObject roundTextObj;
+    public GameObject GameOverTextObj;
     private TMPro.TextMeshProUGUI roundText => roundTextObj.GetComponent<TMPro.TextMeshProUGUI>();
 
     [Header("Game Settings")]
@@ -264,6 +265,7 @@ public class Minigame2Manager : MonoBehaviour
             audioSource.PlayOneShot(gameOverSound, 1.0f);
 
         roundText.text = $"Score: {currentRound - 1}";
+        GameOverTextObj.SetActive(true);
 
         yield return new WaitForSeconds(4f);
 
@@ -288,6 +290,7 @@ public class Minigame2Manager : MonoBehaviour
         ClearGameState();
         SetupMinigameMode(false);
         roundTextObj.SetActive(false);
+        GameOverTextObj.SetActive(false);
         gameOver = true;
         MarkerObjectSpawner.hasShownMinigame2 = false;
         IsMinigameActive = false;
