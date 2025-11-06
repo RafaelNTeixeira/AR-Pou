@@ -1,11 +1,10 @@
 using UnityEngine;
 
+// Class to detect when Pou collides with a maze wall and push him back
 public class MazeDetector : MonoBehaviour
 {
     [Tooltip("How far the box gets pushed back when it hits the maze.")]
     public float knockbackDistance = 0.001f;
-
-    // We need a reference to the box's *own* collider for the calculation
     private Collider myCollider;
 
     void Start()
@@ -18,6 +17,7 @@ public class MazeDetector : MonoBehaviour
         }
     }
 
+    // When we enter a trigger collider
     private void OnTriggerEnter(Collider other)
     {
         // Check if we hit the "Maze"
@@ -25,16 +25,11 @@ public class MazeDetector : MonoBehaviour
         {
             Debug.Log("The box has entered the maze! Pushing back...");
 
-            // --- New, Correct Pushback Logic ---
-
-            // We need to calculate the overlap (penetration) between
-            // our collider (myCollider) and the maze's collider (other).
-
+            // We need to calculate the overlap (penetration) between our collider (myCollider) and the maze's collider (other).
             Vector3 pushDirection;
             float penetrationDepth;
 
-            // This function calculates the direction and distance to "un-stick"
-            // the two colliders. It returns 'true' if they are overlapping.
+            // This function calculates the direction and distance to "un-stick" the two colliders. It returns true if they are overlapping.
             bool isOverlapping = Physics.ComputePenetration(
                 myCollider,           // Our box's collider
                 transform.position,   // Our box's position
@@ -49,26 +44,21 @@ public class MazeDetector : MonoBehaviour
             // If we are successfully overlapping...
             if (isOverlapping)
             {
-                // 'pushDirection' is the vector pointing *away* from the maze wall.
-                // We multiply this direction by our desired knockback distance
-                // to move the box.
+                // pushDirection is the vector pointing away from the maze wall.
+                // We multiply this direction by our desired knockback distance to move the box.
                 transform.position += pushDirection * knockbackDistance * 0.5f;
             }
             else
             {
                 // Fallback in case ComputePenetration fails (rare)
-                // We'll just push back based on the maze's center, which
-                // isn't perfect but is better than nothing.
                 Debug.LogWarning("Could not compute penetration. Using fallback.");
                 Vector3 fallbackDirection = (transform.position - other.transform.position).normalized;
                 transform.position += fallbackDirection * knockbackDistance * 0.5f;
             }
-            
-            // --- End of new logic ---
         }
     }
 
-    // (The OnTriggerExit function can stay the same)
+    // When we exit a trigger collider
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Maze"))

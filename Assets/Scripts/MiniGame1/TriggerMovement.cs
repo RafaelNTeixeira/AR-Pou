@@ -1,8 +1,9 @@
 using UnityEngine;
 
+// Class to trigger movement events based on object enable/disable
 public class TriggerMovement : MonoBehaviour
 {
-    // This enum lets you choose the direction in the Inspector
+    // This enum lets we choose the direction in the Inspector
     public enum MoveDirection
     {
         Front,
@@ -21,21 +22,21 @@ public class TriggerMovement : MonoBehaviour
         switch (directionToTrigger)
         {
             case MoveDirection.Front: MoverEvents.TriggerStartMoveFront(); break;
-            case MoveDirection.Back:  MoverEvents.TriggerStartMoveBack();  break;
-            case MoveDirection.Left:  MoverEvents.TriggerStartMoveLeft();  break;
+            case MoveDirection.Back: MoverEvents.TriggerStartMoveBack(); break;
+            case MoveDirection.Left: MoverEvents.TriggerStartMoveLeft(); break;
             case MoveDirection.Right: MoverEvents.TriggerStartMoveRight(); break;
         }
     }
 
-    // OnDisable is called when the object is Destroyed or SetActive(false)
+    // Method called when the object is Destroyed or SetActive(false)
     private void OnDisable()
     {
         // Fire the STOP event
         switch (directionToTrigger)
         {
             case MoveDirection.Front: MoverEvents.TriggerStopMoveFront(); break;
-            case MoveDirection.Back:  MoverEvents.TriggerStopMoveBack();  break;
-            case MoveDirection.Left:  MoverEvents.TriggerStopMoveLeft();  break;
+            case MoveDirection.Back: MoverEvents.TriggerStopMoveBack(); break;
+            case MoveDirection.Left: MoverEvents.TriggerStopMoveLeft(); break;
             case MoveDirection.Right: MoverEvents.TriggerStopMoveRight(); break;
         }
     }

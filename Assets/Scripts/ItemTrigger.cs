@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Class to handle item triggers for Pou interactions
 public class ItemTrigger : MonoBehaviour
 {
     public enum ItemType
@@ -16,7 +17,7 @@ public class ItemTrigger : MonoBehaviour
     [Header("Item Properties")]
     [SerializeField] private ItemType itemType = ItemType.Food;
     [SerializeField] private float itemValue = 20f;
-    
+
     private bool hasBeenUsed = false;
     private Renderer[] renderers;
 
@@ -25,6 +26,7 @@ public class ItemTrigger : MonoBehaviour
         renderers = GetComponentsInChildren<Renderer>();
     }
 
+    // Detect when the item is used by Pou
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Pou") && !hasBeenUsed && !Minigame2Manager.IsMinigameActive)
@@ -33,7 +35,7 @@ public class ItemTrigger : MonoBehaviour
         }
     }
 
-
+    // Reset item when it leaves Pou's trigger
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Pou"))
@@ -125,10 +127,11 @@ public class ItemTrigger : MonoBehaviour
         hasBeenUsed = false;
     }
 
+    // Helper method to set visibility
     private void SetVisible(bool visible)
     {
         if (renderers == null) return;
-        
+
         foreach (var r in renderers)
         {
             if (r != null)

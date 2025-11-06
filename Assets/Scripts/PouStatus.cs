@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Class to manage Pou's status, needs, growth and appearance
 public class PouStatus : MonoBehaviour
 {
     [Header("Pou Needs (0 = bad, 100 = full)")]
@@ -10,12 +11,12 @@ public class PouStatus : MonoBehaviour
     public string pouMood = "Happy";
 
     [Header("Decay rates (points per second)")]
-    public float hungerDecay = 1f; 
+    public float hungerDecay = 1f;
     public float energyDecay = 0.3f;
     public float cleanlinessDecay = 0.5f;
 
     [Tooltip("Multiplier for energy decay when it's night.")]
-    public float nightDecayMultiplier = 2f; // e.g., 2x faster
+    public float nightDecayMultiplier = 2f;
 
     [Header("Illness parameters")]
     public float sickThreshold = 40f;
@@ -32,8 +33,8 @@ public class PouStatus : MonoBehaviour
     private Vector3 initialScale;
 
     [Header("Sphere references")]
-    public Transform hungerSphere; 
-    public Transform energySphere; 
+    public Transform hungerSphere;
+    public Transform energySphere;
     public Transform healthSphere;
     public Transform cleanlinessSphere;
 
@@ -59,7 +60,7 @@ public class PouStatus : MonoBehaviour
     private Transform mainCameraTransform;
     public Renderer pouRenderer;
 
-    // Last-state trackers to know when to update the material
+    // Trackers to know when to update the material
     private string lastMood;
     private bool lastIsDirty;
     private bool lastIsSick;
@@ -68,7 +69,7 @@ public class PouStatus : MonoBehaviour
     void Start()
     {
         initialScale = transform.localScale;
-        
+
         if (Camera.main != null) mainCameraTransform = Camera.main.transform;
 
         if (pouRenderer == null) Debug.LogWarning("Pou Renderer not assigned! Please assign it in the Inspector.");
@@ -81,6 +82,7 @@ public class PouStatus : MonoBehaviour
         UpdateTexture();
     }
 
+    // Method to update Pou's status every frame
     void Update()
     {
         float dt = Time.deltaTime;
@@ -174,7 +176,7 @@ public class PouStatus : MonoBehaviour
 
         if (average >= 75f) pouMood = "Happy";
         else if (average >= 50f) pouMood = "Okay";
-        else  pouMood = "Sad";
+        else pouMood = "Sad";
     }
 
     // Update the Pou's texture based on mood and cleanliness
@@ -215,7 +217,7 @@ public class PouStatus : MonoBehaviour
             pouRenderer.material = newMaterial;
         }
     }
-    
+
     // Rotates each sphere to look at the camera
     void HandleCameraFacing()
     {
@@ -229,34 +231,5 @@ public class PouStatus : MonoBehaviour
         if (energySphere) energySphere.LookAt(mainCameraTransform);
         if (healthSphere) healthSphere.LookAt(mainCameraTransform);
         if (cleanlinessSphere) cleanlinessSphere.LookAt(mainCameraTransform);
-
-
-        /* 
-        // ALTERNATIVE (Upright)
-        // Get the camera's position
-        Vector3 camPos = mainCameraTransform.position;
-
-        // This version keeps the icons "upright" (no vertical tilt) by having them look at a point at their own height.
-        if (hungerSphere)
-        {
-            Vector3 lookPos = new Vector3(camPos.x, hungerSphere.position.y, camPos.z);
-            hungerSphere.LookAt(lookPos);
-        }
-        if (energySphere)
-        {
-            Vector3 lookPos = new Vector3(camPos.x, energySphere.position.y, camPos.z);
-            energySphere.LookAt(lookPos);
-        }
-        if (healthSphere)
-        {
-            Vector3 lookPos = new Vector3(camPos.x, healthSphere.position.y, camPos.z);
-            healthSphere.LookAt(lookPos);
-        }
-        if (cleanlinessSphere)
-        {
-            Vector3 lookPos = new Vector3(camPos.x, cleanlinessSphere.position.y, camPos.z);
-            cleanlinessSphere.LookAt(lookPos);
-        }
-        */
     }
 }

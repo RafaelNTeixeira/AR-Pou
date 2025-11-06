@@ -1,10 +1,11 @@
 using UnityEngine;
 
+// Class to handle deliverable objects in Minigame 2 (Memory Mini-game)
 public class DeliverableObject : MonoBehaviour
 {
     [Header("Object Properties")]
     [SerializeField] private int objectIndex; // 0=Pizza, 1=Bed, 2=Soap, 3=Pill
-    
+
     private bool hasBeenDelivered = false;
     private Renderer[] renderers;
     private Minigame2Manager gameManager;
@@ -32,13 +33,13 @@ public class DeliverableObject : MonoBehaviour
         }
     }
 
-    // Method to handle delivery to Pou
+    // Method to handle objects delivery to Pou
     private void DeliverToPou()
     {
         if (hasBeenDelivered) return;
-        
+
         hasBeenDelivered = true;
-        
+
         // Notify the game manager
         if (gameManager != null)
         {

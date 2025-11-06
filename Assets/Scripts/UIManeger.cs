@@ -1,24 +1,25 @@
 using UnityEngine;
-using UnityEngine.UI; // Required for UI components
-using TMPro; // If you use TextMeshPro
-using UnityEngine.SceneManagement; // For loading a new scene
+using UnityEngine.UI; 
+using TMPro; 
+using UnityEngine.SceneManagement; 
 #if UNITY_EDITOR
-using UnityEditor; // Needed for stopping play mode in the editor
+using UnityEditor; 
 #endif
 
+// Class to manage the main menu UI
 public class UIManeger : MonoBehaviour
 {
     public GameObject mainMenuCanvas;  // The Canvas containing the buttons
-    public GameObject tutorialText;    // The GameObject with the tutorial text (can be Text or TMP_Text)
+    public GameObject tutorialText;    // The GameObject with the tutorial text 
 
-     public GameObject mazeText;
+    public GameObject mazeText;
 
     void Start()
     {
         // Make sure the tutorial text starts hidden
         if (tutorialText != null)
             tutorialText.SetActive(false);
-        
+
         if (mazeText != null)
             mazeText.SetActive(false);
     }
@@ -29,9 +30,6 @@ public class UIManeger : MonoBehaviour
         // Hide the menu
         if (mainMenuCanvas != null)
             mainMenuCanvas.SetActive(false);
-
-        // Here you can load the game scene, for example:
-        // SceneManager.LoadScene("GameScene");
     }
 
     // Called when the Tutorial button is clicked
@@ -42,7 +40,7 @@ public class UIManeger : MonoBehaviour
             mainMenuCanvas.SetActive(false);
             tutorialText.SetActive(true);
         }
-            
+
     }
 
     // Called when the Back button in the tutorial is clicked
@@ -55,7 +53,7 @@ public class UIManeger : MonoBehaviour
         }
 
     }
-    
+
     // Called when the Play Maze Game button is clicked
     public void PlayGameMaze()
     {
@@ -63,7 +61,7 @@ public class UIManeger : MonoBehaviour
         {
             mazeText.SetActive(false);
         }
-            
+
     }
 
     // Called when the Exit Game button is clicked

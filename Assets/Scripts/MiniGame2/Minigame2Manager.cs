@@ -4,13 +4,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Timeline;
 
+// Class to manage Minigame 2 (Memory Mini-game)
 public class Minigame2Manager : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject countdownTextObj;
     public GameObject roundTextObj;
     private TMPro.TextMeshProUGUI roundText => roundTextObj.GetComponent<TMPro.TextMeshProUGUI>();
-    
+
     [Header("Game Settings")]
     public GameObject[] objectPrefabs;  // 0 = Pizza, 1 = Bed, 2 = Soap, 3 = Pill
     public float timeBetweenObjects = 1f;
@@ -242,7 +243,7 @@ public class Minigame2Manager : MonoBehaviour
         }
     }
 
-
+    // Method to handle Game Over sequence
     IEnumerator GameOverSequence()
     {
         gameOver = true;
@@ -262,7 +263,7 @@ public class Minigame2Manager : MonoBehaviour
         if (audioSource != null && gameOverSound != null)
             audioSource.PlayOneShot(gameOverSound, 1.0f);
 
-        roundText.text = $"Score: {currentRound-1}";
+        roundText.text = $"Score: {currentRound - 1}";
 
         yield return new WaitForSeconds(4f);
 
@@ -270,7 +271,6 @@ public class Minigame2Manager : MonoBehaviour
 
         Debug.Log($"Final Score: {currentRound - 1} rounds completed");
     }
-
 
     // Helper method to clear game state
     private void ClearGameState()

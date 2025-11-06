@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Class to handle movement of Pou based on MoverEvents
 public class PouMazeMovement : MonoBehaviour
 {
     [Tooltip("How fast the object moves per second")]
@@ -15,27 +16,27 @@ public class PouMazeMovement : MonoBehaviour
     private void OnEnable()
     {
         MoverEvents.onStartMoveFront += StartMoveFront;
-        MoverEvents.onStartMoveBack  += StartMoveBack;
-        MoverEvents.onStartMoveLeft  += StartMoveLeft;
+        MoverEvents.onStartMoveBack += StartMoveBack;
+        MoverEvents.onStartMoveLeft += StartMoveLeft;
         MoverEvents.onStartMoveRight += StartMoveRight;
 
         MoverEvents.onStopMoveFront += StopMoveFront;
-        MoverEvents.onStopMoveBack  += StopMoveBack;
-        MoverEvents.onStopMoveLeft  += StopMoveLeft;
+        MoverEvents.onStopMoveBack += StopMoveBack;
+        MoverEvents.onStopMoveLeft += StopMoveLeft;
         MoverEvents.onStopMoveRight += StopMoveRight;
     }
 
-    // ALWAYS unsubscribe when the object is disabled
+    // Unsubscribe when the object is disabled
     private void OnDisable()
     {
         MoverEvents.onStartMoveFront -= StartMoveFront;
-        MoverEvents.onStartMoveBack  -= StartMoveBack;
-        MoverEvents.onStartMoveLeft  -= StartMoveLeft;
+        MoverEvents.onStartMoveBack -= StartMoveBack;
+        MoverEvents.onStartMoveLeft -= StartMoveLeft;
         MoverEvents.onStartMoveRight -= StartMoveRight;
 
         MoverEvents.onStopMoveFront -= StopMoveFront;
-        MoverEvents.onStopMoveBack  -= StopMoveBack;
-        MoverEvents.onStopMoveLeft  -= StopMoveLeft;
+        MoverEvents.onStopMoveBack -= StopMoveBack;
+        MoverEvents.onStopMoveLeft -= StopMoveLeft;
         MoverEvents.onStopMoveRight -= StopMoveRight;
     }
 
@@ -46,8 +47,8 @@ public class PouMazeMovement : MonoBehaviour
         Vector3 moveDirection = Vector3.zero;
 
         if (frontMovers > 0) { moveDirection += Vector3.forward; }
-        if (backMovers > 0)  { moveDirection += Vector3.back; }
-        if (leftMovers > 0)  { moveDirection += Vector3.left; }
+        if (backMovers > 0) { moveDirection += Vector3.back; }
+        if (leftMovers > 0) { moveDirection += Vector3.left; }
         if (rightMovers > 0) { moveDirection += Vector3.right; }
 
         // If the final direction is not zero, move the object
@@ -55,24 +56,22 @@ public class PouMazeMovement : MonoBehaviour
         if (moveDirection != Vector3.zero)
         {
             transform.Translate(
-                moveDirection.normalized * moveSpeed * Time.deltaTime * 0.2f, 
+                moveDirection.normalized * moveSpeed * Time.deltaTime * 0.2f,
                 Space.Self
             );
         }
     }
 
-    // --- Event Handler Methods ---
-
     // Increment counters when START events are received
     private void StartMoveFront() { frontMovers++; }
-    private void StartMoveBack()  { backMovers++; }
-    private void StartMoveLeft()  { leftMovers++; }
+    private void StartMoveBack() { backMovers++; }
+    private void StartMoveLeft() { leftMovers++; }
     private void StartMoveRight() { rightMovers++; }
 
     // Decrement counters when STOP events are received
     // We add Mathf.Max to prevent the count from ever going below zero
     private void StopMoveFront() { frontMovers = Mathf.Max(0, frontMovers - 1); }
-    private void StopMoveBack()  { backMovers  = Mathf.Max(0, backMovers - 1); }
-    private void StopMoveLeft()  { leftMovers  = Mathf.Max(0, leftMovers - 1); }
+    private void StopMoveBack() { backMovers = Mathf.Max(0, backMovers - 1); }
+    private void StopMoveLeft() { leftMovers = Mathf.Max(0, leftMovers - 1); }
     private void StopMoveRight() { rightMovers = Mathf.Max(0, rightMovers - 1); }
 }

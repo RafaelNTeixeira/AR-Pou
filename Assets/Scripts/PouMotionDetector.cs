@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Class to detect Pou's shaking motion and trigger animations
 [RequireComponent(typeof(PouAnimator))]
 public class PouMotionDetector : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class PouMotionDetector : MonoBehaviour
         }
     }
 
+    // Check for shakes every frame
     void Update()
     {
         Vector3 accel;

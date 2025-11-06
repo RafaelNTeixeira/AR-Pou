@@ -1,8 +1,8 @@
 using UnityEngine;
 
+// Class to handle button interactions in Minigame 2 (Memory Mini-game)
 public class ButtonMinigame2 : MonoBehaviour
 {
-
     public GameObject instructionsPanelMinigame2;
 
     // Called when the Play button is pressed in the Minigame 2 instructions panel

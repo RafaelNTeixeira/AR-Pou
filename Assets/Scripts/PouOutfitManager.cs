@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 
+// Class to manage Pou's outfit based on weather conditions
 public class PouOutfitManager : MonoBehaviour
 {
     [Header("Outfit GameObjects")]
@@ -54,9 +55,7 @@ public class PouOutfitManager : MonoBehaviour
         WeatherManager.OnWeatherUpdated -= UpdateOutfitStatusMessage;
     }
 
-    /// <summary>
-    /// Checks weather against current outfit and shows/hides the speech bubble.
-    /// </summary>
+    /// Checks weather against current outfit and shows/hides the Pou's speech bubble.
     void UpdateOutfitStatusMessage()
     {
         if (WeatherManager.Instance == null)
@@ -69,7 +68,7 @@ public class PouOutfitManager : MonoBehaviour
 
         if (pouSpeechBubbleText == null)
         {
-            return; 
+            return;
         }
 
         // Get current weather needs
@@ -143,13 +142,13 @@ public class PouOutfitManager : MonoBehaviour
 
 
             UpdateOutfitStatusMessage();
-            return true; 
+            return true;
         }
-        
+
         Debug.Log("Pou can't wear the rain hat! It's not raining.");
 
         UpdateOutfitStatusMessage();
-        return false; 
+        return false;
     }
 
     // Tries to equip the snow beanie. Only succeeds if it is currently snowing.

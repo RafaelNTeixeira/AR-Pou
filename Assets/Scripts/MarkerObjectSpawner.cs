@@ -4,6 +4,7 @@ using UnityEngine.XR.ARSubsystems;
 using System.Collections.Generic;
 using System.Collections;
 
+// Class to spawn and manage marker-based objects in AR
 public class MarkerObjectSpawner : MonoBehaviour
 {
     [System.Serializable]
@@ -25,7 +26,7 @@ public class MarkerObjectSpawner : MonoBehaviour
 
     //private MazePositionManager mazePositionManager;
 
-     public GameObject instructionsPanel;
+    public GameObject instructionsPanel;
 
     [Header("Minigame 2 Instructions")]
     public GameObject instructionsPanelMinigame2;
@@ -87,11 +88,11 @@ public class MarkerObjectSpawner : MonoBehaviour
                 Debug.Log("Minigame2Marker lost - hiding instructions panel.");
                 ShowInstructionsMinigame2(false);
                 Minigame2Manager.IsMinigameActive = false;
-                hasShownMinigame2 = false;  
+                hasShownMinigame2 = false;
             }
         }
     }
-    
+
     // Spawn or update the prefab corresponding to the tracked image
     void SpawnOrUpdatePrefab(ARTrackedImage trackedImage)
     {

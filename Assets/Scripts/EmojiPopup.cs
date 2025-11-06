@@ -1,11 +1,12 @@
 using UnityEngine;
 using TMPro;
 
+// Class to display rising and fading emoji popups above Pou
 public class EmojiPopup : MonoBehaviour
 {
     public float riseHeight = 0.3f;
     public float lifetime = 1f;
-    
+
     private TextMeshPro textMesh;
     private Transform cam;
     private Vector3 startPos;
@@ -15,7 +16,7 @@ public class EmojiPopup : MonoBehaviour
     {
         textMesh = GetComponent<TextMeshPro>();
         cam = Camera.main.transform;
-        startPos = transform.position - new Vector3(0f, riseHeight, 0f); 
+        startPos = transform.position - new Vector3(0f, riseHeight, 0f);
     }
 
     // Initialize the popup with the desired text

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+// Class to handle Pou's animations and effects
 public class PouAnimator : MonoBehaviour
 {
     [Header("Pou Body")]
@@ -96,6 +97,7 @@ public class PouAnimator : MonoBehaviour
             popupScript.Setup(spriteTag);
     }
 
+    // Helper function to spawn particle effects
     private void SpawnParticle(ParticleSystem particlePrefab)
     {
         if (particlePrefab == null) return;
@@ -184,7 +186,7 @@ public class PouAnimator : MonoBehaviour
         pouBody.localRotation = currentInitialRotation;
         isAnimating = false;
     }
-    
+
     // Dizzy Animation
     private IEnumerator DizzyRoutine()
     {
@@ -200,7 +202,7 @@ public class PouAnimator : MonoBehaviour
 
             // Wobble angle over time
             float wobbleAngle = Mathf.Sin(elapsedTime * 12f) * wobbleStrength + Random.Range(-wobbleStrength, wobbleStrength) * 0.5f;
-            
+
             pouBody.localRotation = originalRotation * Quaternion.Euler(0f, wobbleAngle, 0f);
 
             yield return null;

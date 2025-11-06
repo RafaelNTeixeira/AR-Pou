@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-// ATTACH THIS SCRIPT TO '_PositionManager'
+// Class to manage maze position and movement
 public class MazePositionManager : MonoBehaviour
 {
     [Header("Object References")]
@@ -30,10 +30,7 @@ public class MazePositionManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// This is the new, simple function.
-    /// The script that creates the sunglasses will call this.
-    /// </summary>
+    // Method to trigger Pou to go back to his previous maze position
     public void TriggerMazeMove()
     {
         if (mazeTracker != null && !goBack)

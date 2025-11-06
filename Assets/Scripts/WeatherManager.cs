@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
+// Classes to parse the JSON response from Visual Crossing Weather API
 [System.Serializable]
 public class CurrentConditions
 {
@@ -10,18 +12,18 @@ public class CurrentConditions
     public string datetime; // "HH:M:SS"
 }
 
+// Class to hold the full weather response
 [System.Serializable]
 public class WeatherResponse
 {
     public CurrentConditions currentConditions;
 }
 
+// Class to manage weather data and update scene lighting accordingly
 public class WeatherManager : MonoBehaviour
 {
     // Singleton Pattern
     public static WeatherManager Instance { get; private set; }
-
-    // Any script can subscribe to this without needing a reference to the specific WeatherManager object.
     public static event Action OnWeatherUpdated;
 
     [Header("Visual Crossing Settings")]
@@ -41,7 +43,7 @@ public class WeatherManager : MonoBehaviour
     [Header("Scene Lighting")]
     [Tooltip("The main directional light in the scene (e.g., the 'Sun').")]
     public Light mainDirectionalLight;
-    
+
     [Header("Day Lighting")]
     [ColorUsage(false, false)]
     public Color dayAmbientColor = new Color(0.8f, 0.8f, 0.8f);
@@ -61,7 +63,7 @@ public class WeatherManager : MonoBehaviour
     [Header("Debug Mode")]
     [Tooltip("If true, the live API will not be called. Instead, you can force weather states below.")]
     public bool useDebugMode = false;
-    
+
     [Header("Debug Weather States")]
     public bool forceRaining;
     public bool forceSunny;
@@ -84,12 +86,12 @@ public class WeatherManager : MonoBehaviour
 
     void Start()
     {
-        UpdateSceneLighting(); 
-        
+        UpdateSceneLighting();
+
         // Start a loop that will repeatedly call GetWeather.
         StartCoroutine(WeatherUpdateLoop());
     }
-    
+
     IEnumerator WeatherUpdateLoop()
     {
         while (true)
@@ -100,14 +102,14 @@ public class WeatherManager : MonoBehaviour
                 // This function will apply your forced states
                 ApplyDebugWeather();
                 // Wait 1 second before checking again
-                yield return new WaitForSeconds(1f); 
+                yield return new WaitForSeconds(1f);
             }
             else
             {
                 // This is the normal, original behavior
                 Debug.Log("WeatherManager: Fetching new weather data...");
                 yield return StartCoroutine(GetWeather());
-                
+
                 Debug.Log($"WeatherManager: Waiting {updateIntervalSeconds} seconds for next update.");
                 yield return new WaitForSeconds(updateIntervalSeconds);
             }
@@ -128,7 +130,7 @@ public class WeatherManager : MonoBehaviour
         if (stateChanged)
         {
             Debug.LogWarning("--- DEBUG MODE: Forcing new weather state ---");
-            
+
             // Apply the forced values to the actual state variables
             isRaining = forceRaining;
             isSnowing = forceSnowing;
@@ -140,7 +142,7 @@ public class WeatherManager : MonoBehaviour
 
             UpdateSceneLighting();
 
-            // Fire the event to make Pou change his outfit!
+            // Fire the event to make Pou change his outfit
             OnWeatherUpdated?.Invoke();
         }
     }
@@ -154,7 +156,6 @@ public class WeatherManager : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
-            // ... (The rest of your GetWeather function is identical) ...
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -217,7 +218,7 @@ public class WeatherManager : MonoBehaviour
             }
         }
     }
-    
+
     // Updates the scene's ambient and directional light based on the isNight flag
     void UpdateSceneLighting()
     {
